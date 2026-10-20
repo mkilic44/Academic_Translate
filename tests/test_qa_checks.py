@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -397,3 +398,71 @@ class TestDocxSegments(unittest.TestCase):
         tr.write_text(broken, encoding="utf-8")
         rep = self.ds.apply(self.docx, seg, tr, self.tmp / "x.docx", None, None, None, None)
         self.assertTrue(rep["problems"])
+
+
+@unittest.skipUnless(shutil.which("pandoc"), "pandoc yok")
+class TestDocxTracked(unittest.TestCase):
+    def setUp(self):
+        import docx_segments
+        import docx_tracked
+        self.ds, self.dt = docx_segments, docx_tracked
+        self.tmp = Path(tempfile.mkdtemp())
+        md = self.tmp / "k.md"
+        md.write_text(
+            "Ana örneklem 14 bağlı grup içerir ve Tablo E4'te verilmiştir.\n\n"
+            "| Evre | Gün |\n|---|---|\n| Tam çiçek | 0 |\n\n"
+            "Breiman, L. (2001). Random forests. Machine Learning, 45, 5-32.\n",
+            encoding="utf-8")
+        self.docx = self.tmp / "k.docx"
+        subprocess.run(["pandoc", str(md), "-o", str(self.docx)], check=True)
+        self.seg = self.tmp / "seg"
+        self.ds.extract(self.docx, self.seg)
+        segs = json.loads((self.seg / "segments.json").read_text(encoding="utf-8"))
+        self.pid = {s["text"][:8]: s["id"] for s in segs}
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def _plain(self, path, track="accept"):
+        return subprocess.run(["pandoc", f"--track-changes={track}", str(path), "-t", "plain"],
+                              capture_output=True, text=True).stdout
+
+    def test_minimal_span(self):
+        s, e, mid = self.dt.minimal_span("14 bağlı grup vardır", "14 bağımlılık grubu vardır")
+        self.assertEqual("14 bağlı grup vardır"[s:e], "bağlı grup")
+        self.assertEqual(mid, "bağımlılık grubu")
+
+    def test_apply_and_accept(self):
+        p_text, p_ref = self.pid["Ana örne"], self.pid["Breiman,"]
+        edits = [
+            {"op": "replace", "pid": p_text, "old": "14 bağlı grup içerir", "new": "14 bağımlılık grubu içerir"},
+            {"op": "replace", "pid": p_text, "old": "Tablo E4\u2019te", "new": "Tablo E6\u2019da"},
+            {"op": "italic", "pid": p_ref, "text": "Machine Learning"},
+            {"op": "insert_paragraph", "before_table": 0, "style_like_pid": p_text, "text": "Tablo E1. Evreler."},
+        ]
+        out = self.tmp / "izlenen.docx"
+        log = self.dt.apply_edits(self.docx, self.seg / "segments.json", edits, out, "Claude", "2026-10-20T00:00:00Z")
+        self.assertEqual(len(log), 4)
+        xml = zipfile.ZipFile(out).read("word/document.xml").decode()
+        self.assertIn("w:delText", xml)
+        self.assertIn("bağımlılık grubu", xml)
+        self.assertIn("w:rPrChange", xml)
+        # Silinen ve eklenen metin ayrı görünür; kabul edilince yalnız yeni metin kalır.
+        allv = self._plain(out, "all")
+        self.assertIn("bağlı grup", allv)
+        clean = self.tmp / "temiz.docx"
+        self.dt._rewrite(out, clean, self.dt.accept_tree)
+        acc = self._plain(clean)
+        self.assertIn("14 bağımlılık grubu içerir", acc)
+        self.assertIn("Tablo E6\u2019da", acc)
+        self.assertNotIn("bağlı grup", acc)
+        self.assertIn("Tablo E1. Evreler.", acc)
+        self.assertLess(acc.index("Tablo E1. Evreler."), acc.index("Tam çiçek"))
+        cx = zipfile.ZipFile(clean).read("word/document.xml").decode()
+        self.assertNotIn("w:ins ", cx)
+        self.assertNotIn("w:del ", cx)
+
+    def test_ambiguous_old_is_rejected(self):
+        edits = [{"op": "replace", "pid": self.pid["Breiman,"], "old": "s", "new": "x"}]
+        with self.assertRaises(self.dt.EditError):
+            self.dt.apply_edits(self.docx, self.seg / "segments.json", edits, self.tmp / "x.docx", "Claude", "2026-10-20T00:00:00Z")

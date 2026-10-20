@@ -112,6 +112,16 @@ python "$SKILL_DIR/scripts/docx_segments.py" render MAKALE.en.docx --out WS/hede
 
 `--math-map` denklem içindeki Türkçe alt simgeleri değiştirir (örnek: `{"gece": "night"}`); aynı eşleme çevirmenlere notasyon çizelgesi olarak verilir. Görselin içindeki yazı çevrilmez; yönetici şekilleri açıp okur. Şekiller hedef dilde ise içlerindeki terimler proje sözlüğüne "yazar-şekil" olarak girer ve metin onlarla tutarlı çevrilir.
 
+**Kaynak metindeki hatalar.** Çeviri sırasında bulunan kaynak sorunu (tutarsız sayı, eksik çizelge başlığı, aynı birime birden çok ad, kaynakça biçimi) yazara bildirilir. Yazar düzeltmeyi istediğinde düzeltme Türkçe belgeye izlenen değişiklikle yazılır; böylece yazar her değişikliği görüp kabul ya da ret edebilir:
+
+```bash
+python "$SKILL_DIR/scripts/docx_tracked.py" apply MAKALE.docx --segments WS/seg/segments.json \
+  --edits WS/duzeltmeler.json --out MAKALE.izlenen.docx --author Claude
+python "$SKILL_DIR/scripts/docx_tracked.py" accept MAKALE.izlenen.docx --out MAKALE.duzeltilmis.docx
+```
+
+İşlemler: `replace` (yalnız farklı sözcükler izlenir), `insert_paragraph`, `format_paragraph`, `run_size`, `italic`. Her eski ifade paragrafta tam bir kez geçmelidir; geçmezse betik durur. Kabul edilmiş temiz belge yeniden `extract` edilir ve İngilizce çeviri bu tabana yazılır. Paragraf eklenirse kimlikler kayar; bu yüzden düzeltme çeviriden önce yapılır ya da kimlikler yeniden eşlenir. Anlamı yoruma dayanan düzeltme (belirsiz ifadenin açılması) raporda "yorumla düzeltildi" diye ayrı gösterilir.
+
 ### 0.3 Parametreleri belirle
 
 `WS/params.json` yöne göre varsayılanlarla gelir. Hedef dergi kuralı farklıysa dosyayı düzenle.
