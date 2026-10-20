@@ -16,15 +16,15 @@ Kaynak skill'den farkı kısaca: macOS bağımlılığı kalktı; sayı, atıf v
 ## Kurulum
 
 ```bash
-git clone https://github.com/mkilic44/claude-scientific-translation-tr-en.git
+git clone https://github.com/mkilic44/Academic_Translate.git
 # Linux / macOS
-ln -s "$(pwd)/claude-scientific-translation-tr-en" ~/.claude/skills/bilimsel-ceviri-tr-en
+ln -s "$(pwd)/Academic_Translate" ~/.claude/skills/bilimsel-ceviri-tr-en
 ```
 
 Windows (yönetici olarak açılmış komut isteminde):
 
 ```bat
-mklink /D "%USERPROFILE%\.claude\skills\bilimsel-ceviri-tr-en" "C:\yol\claude-scientific-translation-tr-en"
+mklink /D "%USERPROFILE%\.claude\skills\bilimsel-ceviri-tr-en" "C:\yol\Academic_Translate"
 ```
 
 Gereksinimler:
