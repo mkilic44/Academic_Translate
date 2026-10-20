@@ -129,7 +129,7 @@ class TestDomainPack(unittest.TestCase):
 
 class TestScripts(unittest.TestCase):
     def test_help(self):
-        for script in ("qa_checks.py", "seed_glossary.py", "prepare_source.py", "export_docx.py", "build_domain_glossary.py"):
+        for script in ("qa_checks.py", "seed_glossary.py", "prepare_source.py", "export_docx.py", "merge_glossaries.py", "build_domain_glossary.py"):
             args = [sys.executable, "-I", str(ROOT / "scripts" / script)]
             args += [] if script == "build_domain_glossary.py" else ["--help"]
             res = subprocess.run(args, capture_output=True, text=True)

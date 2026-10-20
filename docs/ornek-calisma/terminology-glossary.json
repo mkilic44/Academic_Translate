@@ -1,0 +1,530 @@
+{
+ "metadata": {
+  "source_language": "en",
+  "target_language": "tr",
+  "document_type": "araştırma makalesi",
+  "domain_packs": [
+   "toprak-bilimi"
+  ],
+  "total_terms": 22,
+  "high_confidence": 9,
+  "medium_confidence": 7,
+  "low_confidence": 6,
+  "seed_terms": 12,
+  "researched_terms": 10,
+  "start_time": "2026-10-20T07:13:02+00:00",
+  "end_time": "2026-10-20T07:36:36+00:00",
+  "web_search_failures": 4,
+  "global_forbidden": [],
+  "consistency_groups": [
+   {
+    "variants": [
+     "tekstür",
+     "bünye"
+    ],
+    "lang": "tr",
+    "kaynak": "tekstür / bünye",
+    "match": "word"
+   },
+   {
+    "variants": [
+     "toprak strüktürü",
+     "toprak yapısı"
+    ],
+    "lang": "tr",
+    "kaynak": "strüktür / yapı",
+    "match": "term",
+    "note": "Yalın 'yapı' çok genel bir sözcük olduğu için yalnız tamlama biçimi denetlenir."
+   },
+   {
+    "variants": [
+     "silt",
+     "mil"
+    ],
+    "lang": "tr",
+    "kaynak": "silt / mil",
+    "match": "word"
+   },
+   {
+    "variants": [
+     "KDK",
+     "KEK"
+    ],
+    "lang": "tr",
+    "kaynak": "KDK / KEK",
+    "match": "abbr"
+   },
+   {
+    "variants": [
+     "kriging",
+     "krigleme"
+    ],
+    "lang": "tr",
+    "kaynak": "kriging / krigleme",
+    "match": "word"
+   }
+  ],
+  "conflicts": []
+ },
+ "terms": [
+  {
+   "original": "bulk density",
+   "translation": "hacim ağırlığı",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "Soil organic carbon (SOC) and bulk density were measured at 120 sites (0-30 cm).",
+   "occurrences": 3,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "cation exchange capacity",
+   "translation": "katyon değişim kapasitesi",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": {
+    "source": "CEC",
+    "target": "KDK"
+   },
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "Cation exchange capacity (CEC) ranged from 12.3 to 38.9 cmol(+) kg-1.",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "soil organic carbon",
+   "translation": "toprak organik karbonu",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": {
+    "source": "SOC",
+    "target": "TOK"
+   },
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "# Spatial prediction of soil organic carbon in a semi-arid catchment",
+   "occurrences": 2,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "calcium carbonate content",
+   "translation": "kireç içeriği",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "The results suggest that calcium carbonate content may control SOC storage.",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "available phosphorus",
+   "translation": "alınabilir fosfor",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "Yilmaz (2018) reported a mean available phosphorus of 7.5 mg kg-1.",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "digital soil mapping",
+   "translation": "sayısal toprak haritalama",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "Digital soil mapping uses environmental covariates to predict soil properties [1, 3-5].",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "environmental covariates",
+   "translation": "yardımcı değişkenler",
+   "alternatives": [
+    "çevresel değişkenler"
+   ],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "Digital soil mapping uses environmental covariates to predict soil properties [1, 3-5].",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "cross-validation",
+   "translation": "çapraz doğrulama",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "Cross-validation used 10 folds, and 25% of the data were held out (Figure 1).",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "",
+   "enforce": true
+  },
+  {
+   "original": "root mean squared error",
+   "translation": "ortalama kare hatanın karekökü",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": {
+    "source": "RMSE",
+    "target": "RMSE"
+   },
+   "category": "technical",
+   "status": "bağlayıcı",
+   "confidence": "high",
+   "origin": "domain:toprak-bilimi/baglayici",
+   "context": "Random forest predicted SOC with a root mean squared error (RMSE) of 0.42% and R2 = 0.61 (Smith et al., 2019; Brown and Lee, 2020a).",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026))"
+   ],
+   "notes": "Türkçe metinde İngilizce açılım ve RMSE birlikte verilir: ortalama kare hatanın karekökü (root mean squared error, RMSE).",
+   "enforce": true
+  },
+  {
+   "original": "prediction",
+   "translation": "tahmin",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "değişken",
+   "confidence": "medium",
+   "origin": "domain:toprak-bilimi/oneriler:A-035",
+   "context": "# Spatial prediction of soil organic carbon in a semi-arid catchment",
+   "occurrences": 1,
+   "sources": [
+    "https://doi.org/10.1501/tarimbil_0000001193",
+    "https://search.trdizin.gov.tr/tr/yayin/detay/612860",
+    "https://doi.org/10.31590/ejosat.913286",
+    "https://dergipark.org.tr/tr/pub/tbbbd/article/1110496",
+    "https://dergipark.org.tr/tr/pub/hartek/article/177619",
+    "https://dergipark.org.tr/tr/download/article-file/3012919"
+   ],
+   "notes": "Bağlam ayrımı (tohum notu A-035): toprak ve tarım yayınlarında 'tahmin', madencilik ve jeodezi yayınlarında 'kestirim'. Kaynak bir toprak metni (sayısal toprak haritalama), bu yüzden 'tahmin' seçildi. Aramalarda toprak, orman ve erozyon konulu üç Türkçe başlıkta 'tahmin' görüldü (Toprak Bilimi ve Bitki Besleme Dergisi: '...makine öğrenme algoritmalarıyla tahmini'; Harita Teknolojileri Elektronik Dergisi: '...Orman Düzeyinde Tahmin Edilmesi...'; 'Mekân Tabanlı Toprak Erozyonu Tahmin Modelleri'). Toprak konulu başlıklarda 'kestirim' görülmedi; 'kestirim' için ayrıca arama yapılmadı. Aynı metinde 'kestirim' ile dönüşümlü kullanılmaz. Fiil biçimleri (predict, predicted) 'tahmin etmek'. Uyarı: sozluk.md 'kestirim ile tahmin ayrımı' kararını MIRAC'a bırakıyor; karar çıkana kadar bu seçim geçerlidir. Tohumdan devralınan ilk üç adres bu oturumda açılamadı. Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": true
+  },
+  {
+   "original": "random forest",
+   "translation": "rastgele orman",
+   "alternatives": [
+    "rassal orman"
+   ],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "değişken",
+   "confidence": "medium",
+   "origin": "domain:toprak-bilimi/oneriler:A-039",
+   "context": "Random forest predicted SOC with a root mean squared error (RMSE) of 0.42% and R2 = 0.61 (Smith et al., 2019; Brown and Lee, 2020a).",
+   "occurrences": 1,
+   "sources": [
+    "https://doi.org/10.29128/geomatik.476668",
+    "https://search.trdizin.gov.tr/tr/yayin/detay/1205645",
+    "https://doi.org/10.51541/nicel.832164",
+    "https://dergipark.org.tr/tr/download/article-file/1009080"
+   ],
+   "notes": "Öneri: rastgele orman, kısaltma RF. OpenAlex taramasında \"rastgele orman\" 487, \"rassal orman\" 74 kayıt. \"Rassal\" ekonometri ve finans yayınlarında geçiyor. Bazı yayınlarda Türkçe kısaltma RO (rastgele orman) var; kullanılmasın. Araştırma: bağlam ayrımı korundu: 'rassal' ekonometri ve finans yayınlarında geçiyor, 'rastgele orman' tohum notundaki OpenAlex taramasında baskın (487'ye 74); bu kaynak bir toprak metni olduğundan 'rastgele orman' seçildi. Aramada Türkçe başlıkta 'Rastgele orman algoritması kullanılarak çok bantlı...' görüldü. Kaynak metinde 'RF' kısaltması geçmediği için abbreviation boş bırakıldı; çeviride kısaltma gerekirse tohum notuna göre RF, 'RO' kullanılmaz. Tohumdan devralınan üç adres bu oturumda açılamadı. Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": true
+  },
+  {
+   "original": "R2",
+   "translation": "R2",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": {
+    "source": "R2",
+    "target": "R2"
+   },
+   "category": "abbreviation",
+   "status": "kısaltma",
+   "confidence": "medium",
+   "origin": "domain:toprak-bilimi/oneriler:A-074",
+   "context": "Random forest predicted SOC with a root mean squared error (RMSE) of 0.42% and R2 = 0.61 (Smith et al., 2019; Brown and Lee, 2020a).",
+   "occurrences": 1,
+   "sources": [
+    "https://doi.org/10.21657/topraksu.655501",
+    "https://doi.org/10.33409/tbbbd.796822",
+    "https://doi.org/10.21657/topraksu.700706",
+    "https://search.trdizin.gov.tr/tr/yayin/detay/209722",
+    "https://doi.org/10.3390/agriculture13050976",
+    "https://doi.org/10.1016/j.geoderma.2018.09.006",
+    "https://doi.org/10.1016/j.ecolind.2022.108545"
+   ],
+   "notes": "Kaynakta yalnız kısaltma geçiyor; kısaltma korunur. Kaynak belgede tanımı yoksa çeviride de eklenmez, raporda belirtilir. Dördü de toprak yayınlarında geçiyor. \"Toprak\" sözcüğüyle daraltılmış aramada: belirleme 9, determinasyon 9, belirtme 6, belirlilik 2. Öneri: belirleme katsayısı. Korelasyon katsayısının karesi ile model etkinliği ölçüsü aynı değildir; hangisinin hesaplandığı yazılsın. Araştırma: kaynak metin R2'yi tanımlamıyor ve hangi ölçünün (korelasyon katsayısının karesi mi, model etkinliği mi) hesaplandığını yazmıyor; çeviri tanım eklemez, bu eksik raporda belirtilir. Önerilen Türkçe ad 'belirleme katsayısı' yalnız yazar tanım verirse kullanılır. İngilizce kullanım: 'coefficient of determination (R2)' (Suleymanov 2023, Zeraatpisheh 2019); Chen 2022 ise R2'yi 'correlation coefficients R2 between observed and predicted values' diye adlandırıyor, tohum notundaki uyarıyla uyumlu. Tohumdan devralınan dört adres bu oturumda açılamadı.",
+   "enforce": true
+  },
+  {
+   "original": "semi-arid",
+   "translation": "yarı kurak",
+   "alternatives": [],
+   "forbidden": [
+    "yarı-kurak"
+   ],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "yerleşik",
+   "confidence": "medium",
+   "origin": "research",
+   "context": "# Spatial prediction of soil organic carbon in a semi-arid catchment",
+   "occurrences": 1,
+   "sources": [
+    "https://dergipark.org.tr/tr/pub/zm/article/1778738",
+    "https://dergipark.org.tr/tr/pub/tjf/article/905243",
+    "https://dergipark.org.tr/tr/download/article-file/5409331",
+    "https://dergipark.org.tr/en/pub/harranziraat/issue/66275/903887"
+   ],
+   "notes": "İklim sıfatı. Türkçe başlıklarda ayrı yazım 'yarı kurak' üç yayında görüldü (Ziraat Mühendisliği: 'Yarı Kurak İklimlerde Arazi Kullanımına Bağlı Karbon Stoğu Dağılımı'; Turkish Journal of Forestry: 'Yarı kurak bölgelerde doğal ve plantasyon karaçam ormanlarının...'; 'Yarı kurak bir bölgede oluşmuş toprakların detaylı etüd...'), tireli 'yarı-kurak' bir yayında (Harran Tarım ve Gıda Bilimleri Dergisi). Ayrı yazım seçildi ve metin boyunca korunur; tireli biçim forbidden listesinde. TDK Güncel Türkçe Sözlük erişilemedi, yazım TDK'dan doğrulanmadı. Güven medium'da tutuldu: aynı biçim birden çok dergide görüldü, ama sayfalar açılamadığı için hakem durumu ve yazar grupları doğrulanamadı. Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": true
+  },
+  {
+   "original": "catchment",
+   "translation": "havza",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "yerleşik",
+   "confidence": "medium",
+   "origin": "research",
+   "context": "# Spatial prediction of soil organic carbon in a semi-arid catchment",
+   "occurrences": 1,
+   "sources": [
+    "https://dergipark.org.tr/tr/download/article-file/3769778",
+    "https://doi.org/10.1007/s11104-010-0425-z",
+    "https://doi.org/10.1038/s41598-019-42556-5",
+    "https://doi.org/10.1007/s10661-024-12294-x"
+   ],
+   "notes": "Başlıkta 'yarı kurak bir havza'. Türkçe başlıkta 'havza' görüldü ('Horasan-Sarıkamış arasındaki Araş Nehri Havzasının Toprak Özellikleri'); tek yayın olduğu için medium. İngilizce kullanım: 'semi-arid catchment' (Wiesmeier 2011, Inner Mongolia; Patton 2019, Idaho); catchment ve watershed yakın kullanılıyor (Mosaid 2024: 'Srou catchment located in the Upper Oum Er-Rbia watershed'). catchment, watershed ve basin ayrımının Türkçede nasıl yapıldığı Türkçe kaynakla doğrulanmadı; 'su toplama havzası' bu çalışmada araştırılmadı. Bu metinde yalnız başlıkta geçtiği için 'havza' yeterli. Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": true
+  },
+  {
+   "original": "spatial prediction",
+   "translation": "mekânsal tahmin",
+   "alternatives": [],
+   "forbidden": [
+    "konumsal tahmin",
+    "alansal tahmin",
+    "uzaysal tahmin",
+    "uzamsal tahmin"
+   ],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "değişken",
+   "confidence": "medium",
+   "origin": "research",
+   "context": "# Spatial prediction of soil organic carbon in a semi-arid catchment",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/sozluk.md (sürüm 1.2 (17 Eylül 2026)): spatial autocorrelation = mekânsal otokorelasyon",
+    "toprak-bilimi/kaynak/terim_onerileri_A.md (A-030 mekânsal dağılım, A-035 tahmin)",
+    "https://doi.org/10.1007/s11104-010-0425-z",
+    "https://doi.org/10.1016/j.geodrs.2017.07.005",
+    "https://doi.org/10.1016/j.geodrs.2020.e00260",
+    "https://doi.org/10.1007/s10661-021-09543-8"
+   ],
+   "notes": "Bileşik ad iki kararın birleşimi: 'spatial' bütün bileşiklerde 'mekânsal' (bağlayıcı sözlükteki 'mekânsal otokorelasyon' ve tohum satırları A-005, A-028 ile A-030; 'konumsal', 'alansal', 'uzaysal' karıştırılmaz) ve 'prediction' toprak metninde 'tahmin' (yukarıdaki 'prediction' girdisi). 'Mekânsal tahmin' bileşik olarak Türkçe kaynakta doğrudan görülmedi ('mekânsal tahmin' toprak organik karbon aramasında Türkçe sonuç çıkmadı); güven, bileşenlere dayanıyor. İngilizce kullanım: 'Spatial prediction of...' başlıkları ve ifadesi (Wiesmeier 2011, Dharumarajan 2017, Mahmoudzadeh 2020, Rostaminia 2021). Ekli biçimler ('mekânsal tahmini') kabul edilir; kalıp 'mekânsal' + 'tahmin' olarak korunur. Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": true
+  },
+  {
+   "original": "SOC storage",
+   "translation": "TOK depolama",
+   "alternatives": [
+    "TOK depolanması",
+    "toprak organik karbonu depolama",
+    "toprak organik karbonunun depolanması",
+    "organik karbon depolama"
+   ],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "araştırıldı",
+   "confidence": "medium",
+   "origin": "research",
+   "context": "The results suggest that calcium carbonate content may control SOC storage.",
+   "occurrences": 1,
+   "sources": [
+    "https://dergipark.org.tr/tr/download/article-file/4670835",
+    "https://dergipark.org.tr/tr/pub/hartek/article/177619",
+    "https://dergipark.org.tr/tr/pub/tjf/article/905243",
+    "https://dergipark.org.tr/tr/download/article-file/448684",
+    "https://dergipark.org.tr/tr/pub/zm/article/1778738",
+    "https://doi.org/10.1007/s11104-010-0425-z",
+    "https://doi.org/10.1038/s41598-019-42556-5",
+    "https://doi.org/10.1016/j.geoderma.2016.10.013"
+   ],
+   "notes": "storage, stock ve sequestration ayrı kavramlardır. Bu metinde 'storage' geçiyor: Türkçe başlıklarda 'depolama' görüldü ('Karbon Depolama Performansının Değerlendirilmesi'; 'Karasal Karbon Depolama Kapasitesinin...'; 'organik karbon ve toplam azot depolama kapasitelerinin değerlendirilmesi'). 'Stok' (stock) ayrı bir ölçü adıdır ('Karbon Stokları', 'Karbon Stoğu Dağılımı' başlıkları): 'storage' için 'stok' kullanılmaz, metinde 'stock' geçmediği sürece 'stok' yazılmaz. Metinde sequestration geçmiyor; karşılığı araştırılmadı. Seçilen ad: 'TOK depolama' (kısaltma bağlayıcı sözlükten: toprak organik karbonu, TOK). Cümlede 'TOK depolanması' biçimi doğal; ikisi de alternatives içinde. Yan not: 'control' burada 'belirleyici etken olmak' anlamında ('controls on SOC storage', Patton 2019; 'Controls on soil carbon storage...', Román-Sánchez 2018); 'kontrol etmek' anlamı taşımadığı için 'belirleyebilir' ya da 'etkileyebilir' düşünülmeli. enforce=false: çeviri kalıbı cümleye göre değişiyor ('TOK depolama' ve 'TOK depolanması' aynı kalıp değil). Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": false
+  },
+  {
+   "original": "folds",
+   "translation": "kat",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "method",
+   "status": "değişken",
+   "confidence": "low",
+   "origin": "research",
+   "context": "Cross-validation used 10 folds, and 25% of the data were held out (Figure 1).",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/terim_onerileri_A.md (A-054)",
+    "https://doi.org/10.1016/j.geoderma.2018.09.006",
+    "https://doi.org/10.1016/j.geodrs.2020.e00256",
+    "https://doi.org/10.1007/s10661-021-09543-8"
+   ],
+   "notes": "web araması yapılamadı (iki Türkçe arama, '10 katlı çapraz doğrulama toprak' ve 'k-katlı çapraz doğrulama toprak', toprak konulu sonuç vermedi; arama çalıştı ama ilgili sonuç dönmedi). Karar tohum satırı A-054'e dayanıyor ('k-katlı çapraz doğrulama', değişken; TR Dizin ilk 40 kayıtta katlı 28, kat 26, katlamalı 8): bu oturumda yeniden doğrulanmadı. Kaynakta 'k-fold' yazmıyor, '10 folds' yazıyor: Türkçede '10 katlı çapraz doğrulama' ya da 'çapraz doğrulamada 10 kat'. 'Çapraz doğrulama' bağlayıcı sözlükte sabit; 'çapraz geçerlilik' kullanılmaz (A-054). 'Kat' tek başına çok anlamlı (zemin katı, tabaka) olduğundan enforce=false; denetçi bağlama bakar. İngilizce kullanım: '10-fold cross-validation' (Zeraatpisheh 2019, Tajik 2020; Rostaminia 2021 'Ten-fold CV'). Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": false
+  },
+  {
+   "original": "held out",
+   "translation": "hold-out",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "method",
+   "status": "yerleşmemiş",
+   "confidence": "low",
+   "origin": "research",
+   "context": "Cross-validation used 10 folds, and 25% of the data were held out (Figure 1).",
+   "occurrences": 1,
+   "sources": [
+    "https://doi.org/10.7717/peerj.19605",
+    "https://doi.org/10.1016/j.ecolind.2018.01.049",
+    "https://doi.org/10.3390/agronomy15112495"
+   ],
+   "notes": "Tutarlı bir Türkçe ad bulunamadı; Türkçe ad uydurulmaz. İlk geçişte bir cümleyle açıkla. Önerilen açıklama: 'verinin %25'i model kurulumunda kullanılmamak üzere ayrı tutuldu (hold-out)'. Kaynakta 'held out' yalnız fiil olarak geçiyor ve ayrılan payın amacını (doğrulama mı, test mi) yazmıyor: çeviri amaç eklemez, bağlayıcı sözlükteki 'bağımsız doğrulama' ya da 'test kümesi' demez. Arama özetlerinde Türkçe makine öğrenmesi yayınlarında 'hold-out yöntemi' biçimiyle İngilizce terimin korunduğu belirtildi; özet hangi sayfada geçtiğini eşlemediği için Türkçe adres yazılmadı. İngilizce kullanım: 'hold-out independent tests' (Tian 2025); '75% ... train, remaining 25% ... validate' (Wang 2018); yakın anlamlı 'split-sample validation' (Radočaj 2025). enforce=false: kaynak 'held out' fiilini, hedef 'ayrıldı' gibi sıradan bir fiille de karşılayabilir. Doğrulama düzeyi: sayfa açma araçları (WebFetch, curl) bu ortamda erişilemedi; Türkçe adresler için terim arama sonucundaki başlıkta görüldü, İngilizce adresler için Consensus aracının döndürdüğü özet metninde görüldü; sayfaların kendisi açılmadı, hakem durumu ve yazar grupları doğrulanmadı.",
+   "enforce": false
+  },
+  {
+   "original": "summary statistics",
+   "translation": "özet istatistikler",
+   "alternatives": [
+    "tanımlayıcı istatistikler"
+   ],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "statistic",
+   "status": "değişken",
+   "confidence": "low",
+   "origin": "research",
+   "context": "Table 1. Summary statistics of 120 samples.",
+   "occurrences": 1,
+   "sources": [],
+   "notes": "Kaynak adresi yazılmadı: Türkçe tarafta terim başlıkta doğrudan görülmedi. Arama özetinde Türkçe toprak makalelerindeki benzer çizelgelerin çoğunlukla 'tanımlayıcı istatistikler' başlığı taşıdığı belirtildi (descriptive statistics karşılığı); sayfalar açılamadı. 'Özet istatistikler' (summary statistics) için Türkçe toprak yayınında kullanım görülmedi. Karar: kaynak 'summary statistics' dediği için tereddütte sözcüğe sadık 'özet istatistikler' önerildi, 'tanımlayıcı istatistikler' kabul edilir (alternatives). Metin boyunca tek biçim. Çizelge içeriği (ortalama, standart sapma) iki adlandırmaya da uyuyor. enforce=false.",
+   "enforce": false
+  },
+  {
+   "original": "standard deviation",
+   "translation": "standart sapma",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "statistic",
+   "status": "yerleşik",
+   "confidence": "low",
+   "origin": "research",
+   "context": "| Property | Mean | Standard deviation |",
+   "occurrences": 1,
+   "sources": [],
+   "notes": "Ayrı arama yapılmadı, kaynak adresi yazılmadı; kaynakla doğrulanmadı. Çizelge sütun başlığı. 'Standart hata' (standard error) ile karıştırılmaz. Çok yaygın bir istatistik adı olduğu için yerleşik işaretlendi; TÜBA ve TDK erişilemediğinden bu işaret kaynaksız.",
+   "enforce": true
+  },
+  {
+   "original": "samples",
+   "translation": "örnek",
+   "alternatives": [
+    "toprak örneği"
+   ],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "technical",
+   "status": "araştırıldı",
+   "confidence": "low",
+   "origin": "research",
+   "context": "Table 1. Summary statistics of 120 samples.",
+   "occurrences": 1,
+   "sources": [
+    "toprak-bilimi/kaynak/terim_onerileri_A.md (A-088 notu: 'Örnek sayısı' toprak örneği adedi için kullanılır; istatistiksel n ile aynı olmayabilir)"
+   ],
+   "notes": "Toprak örneği anlamında 'örnek'. 'Örneklem' istatistiksel anakütleden seçilen alt küme için kullanılır; 120 toprak örneğine 'örneklem' denmez (tohum satırı A-088: 'örnek sayısı' toprak örneği adedi için kullanılır ve istatistiksel n ile aynı olmayabilir; sample size için 'örneklem büyüklüğü'). Kaynakta 'samples' çizelge başlığında, '120 sites' özet cümlesinde geçiyor; aynı sayı iki ayrı sözcükle verilmiş (örnek ve nokta/alan); çeviri ikisini birleştirmez. Türkçe kaynak adresi yazılmadı: arama özetlerinde 'toprak örneği' kullanımı belirtildi ama sayfa açılamadı. enforce=false (kısa ve çok anlamlı sözcük).",
+   "enforce": false
+  },
+  {
+   "original": "cmol(+) kg-1",
+   "translation": "cmol(+) kg-1",
+   "alternatives": [],
+   "forbidden": [],
+   "abbreviation": null,
+   "category": "unit",
+   "status": "kısaltma",
+   "confidence": "low",
+   "origin": "research",
+   "context": "Cation exchange capacity (CEC) ranged from 12.3 to 38.9 cmol(+) kg-1.",
+   "occurrences": 1,
+   "sources": [],
+   "notes": "Birim simgesi çevrilmez; kaynaktaki yazım korunur ve 'cmolc kg-1', 'cmol kg-1', 'cmol/kg' ya da 'me/100 g' ile değiştirilmez. Arama özetinde Türkiye'deki toprak etütlerinin çoğunlukla 'cmol kg-1' ya da 'cmol/kg' yazdığı belirtildi (sayfalar açılamadı, adres yazılmadı); yani Türkçe yayınlarda yazım değişken, ama çeviride kaynak biçimi korunur. qa_checks.py bu simgeyi (parantez ve tire) eşleştiremiyor: kaynak metinde bile 0 eşleşme verdi; bu yüzden enforce=false, denetçi birimi elle karşılaştırır. mg kg-1 ve g cm-3 için ayrı girdi açılmadı (değişmeden korunur).",
+   "enforce": false
+  }
+ ]
+}

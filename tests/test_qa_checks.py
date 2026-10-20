@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import merge_glossaries  # noqa: E402
 import qa_checks  # noqa: E402
 import seed_glossary  # noqa: E402
 from trtext import extract_numbers, find_term, split_sentences, tr_lower, tr_upper  # noqa: E402
@@ -58,6 +59,9 @@ class TestTrText(unittest.TestCase):
     def test_short_word_not_overmatched(self):
         self.assertEqual(find_term("kilometre boyunca", "kil", "tr"), [])
         self.assertEqual(len(find_term("killi ve kilin oranı", "kil", "tr")), 2)
+
+    def test_unit_with_plus_sign(self):
+        self.assertEqual(len(find_term("ranged to 38.9 cmol(+) kg-1.", "cmol(+) kg-1", "en")), 1)
 
     def test_english_plural(self):
         self.assertEqual(len(find_term("Bulk densities and cation exchange capacities", "bulk density", "en")), 1)
@@ -101,6 +105,26 @@ class TestSeedGlossary(unittest.TestCase):
         forb = {t["original"]: t["forbidden"] for t in g["terms"]}
         self.assertIn("lime content", forb["kireç içeriği"])
         self.assertIn("deterioration", g["metadata"]["global_forbidden"])
+
+
+class TestMergeGlossaries(unittest.TestCase):
+    def test_binding_wins_and_conflict_recorded(self):
+        seed = seed_glossary.seed((FIX / "en_source.md").read_text(encoding="utf-8"), "en-tr", [DOMAIN])
+        research = {"metadata": {"web_search_failures": 2}, "terms": [
+            {"original": "bulk density", "translation": "yığın yoğunluğu", "status": "araştırıldı", "confidence": "medium", "origin": "research"},
+            {"original": "catchment", "translation": "havza", "status": "araştırıldı", "confidence": "medium", "origin": "research"},
+            # Araştırmacı tohum girdisini güncellerken origin alanını olduğu gibi bırakabilir.
+            {"original": "prediction", "translation": "tahmin", "status": "değişken", "confidence": "medium",
+             "origin": "domain:toprak-bilimi/oneriler:A-035"},
+        ]}
+        m = merge_glossaries.merge([seed, research])
+        pairs = {t["original"]: t["translation"] for t in m["terms"]}
+        self.assertEqual(pairs["bulk density"], "hacim ağırlığı")
+        self.assertEqual(pairs["catchment"], "havza")
+        self.assertEqual(pairs["prediction"], "tahmin")
+        self.assertEqual([c["original"] for c in m["metadata"]["conflicts"]], ["bulk density"])
+        self.assertEqual(m["metadata"]["web_search_failures"], 2)
+        self.assertEqual(m["metadata"]["total_terms"], len(m["terms"]))
 
 
 class TestQAGood(unittest.TestCase):

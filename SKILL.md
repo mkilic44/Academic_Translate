@@ -220,11 +220,16 @@ Başlangıç ve bitiş zamanını metadata alanına ISO 8601 biçiminde yaz.
 
 ## Aşama 1.5: Yönetici sözlüğü birleştirir
 
-1. `seed-glossary.json` ve `glossary-research.json` dosyalarını oku.
-2. `terms` dizilerini birleştir. Aynı `original` iki dosyada varsa öncelik: bağlayıcı alan sözlüğü, sonra araştırmacının kaynaklı kararı, sonra öneri listesi.
-3. Araştırmacının bağlayıcı bir girdiyle çelişen önerisini uygulama; raporda "kullanıcı kararı gerekir" diye listele.
-4. Metadata sayılarını yeniden hesapla. Sonucu `WS/terminology-glossary.json` olarak kaydet.
-5. Çevirmenin `[?terim: ...?]` işaretlerini sözlükle karşılaştır; karşılanmayan işaret kalırsa araştırmacıya geri gönder.
+```bash
+python "$SKILL_DIR/scripts/merge_glossaries.py" WS/seed-glossary.json WS/glossary-research.json \
+  --out WS/terminology-glossary.json
+```
+
+1. Betik `terms` dizilerini `original` alanına göre birleştirir. Öncelik: bağlayıcı alan sözlüğü, sonra araştırmacının kaynaklı kararı, sonra öneri listesi.
+2. Araştırmacının bağlayıcı bir girdiyle çelişen önerisi uygulanmaz; `metadata.conflicts` listesine yazılır. Yönetici bunu raporda "kullanıcı kararı gerekir" diye verir.
+3. Metadata sayıları yeniden hesaplanır.
+4. Yönetici düşük güvenli girdileri okur. Kaynaksız bir karşılık bağlayıcı gibi sunulmaz; gerekirse `enforce: false` yapılır.
+5. Çevirmenin `[?terim: ...?]` işaretleri sözlükle karşılaştırılır; karşılanmayan işaret kalırsa araştırmacıya geri gönderilir.
 
 Parçalı modda önce parçaları birleştir:
 

@@ -190,7 +190,9 @@ def _tr_stem_pattern(word: str) -> str:
 
 
 def _clean_term(term: str) -> str:
-    term = re.sub(r"\([^)]*\)", " ", term)
+    # Yalnız harfle başlayan parantez içi atılır (kısaltma ya da açıklama: "(SOC)").
+    # Birim parçası olan "(+)" korunur: "cmol(+) kg-1".
+    term = re.sub(r"\s*\([A-Za-zÇĞİÖŞÜçğıöşü][^)]*\)", " ", term)
     return " ".join(term.split())
 
 

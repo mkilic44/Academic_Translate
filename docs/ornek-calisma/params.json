@@ -1,0 +1,12 @@
+{
+ "forbid_dashes": true,
+ "translate_references": false,
+ "source_decimal": ".",
+ "target_decimal": ",",
+ "target_percent": "prefix",
+ "etal_target": "ve ark.",
+ "figure_label_target": "Şekil",
+ "table_label_target": "Çizelge",
+ "max_sentence_words": 30,
+ "direction": "en-tr"
+}

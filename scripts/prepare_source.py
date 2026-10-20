@@ -41,7 +41,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from qa_checks import COMMON_DEFAULTS, DEFAULTS, extract_citations, extract_numbered, structure_stats  # noqa: E402
-from trtext import DOI_RE, REFERENCE_HEADINGS, extract_numbers, normalize, split_references, strip_code_and_links  # noqa: E402
+from trtext import (  # noqa: E402
+    DOI_RE,
+    REFERENCE_HEADINGS,
+    extract_numbers,
+    mask_section_numbers,
+    normalize,
+    split_references,
+    strip_code_and_links,
+)
 
 PANDOC_INPUTS = {".docx", ".odt", ".rtf", ".html", ".htm", ".tex", ".epub"}
 
@@ -217,7 +225,7 @@ def manifest(text: str, direction: str | None, warnings: list[str]) -> str:
     st = structure_stats(text)
     body, refs = split_references(text)
     dec = DEFAULTS[direction]["source_decimal"] if direction else "."
-    nums = extract_numbers(strip_code_and_links(body), dec)
+    nums = extract_numbers(mask_section_numbers(strip_code_and_links(body)), dec)
     cites = extract_citations(strip_code_and_links(body))
     numbered = extract_numbered(strip_code_and_links(body))
     headings = re.findall(r"^(#{1,6})\s+(.+)$", re.sub(r"```.*?```", "", body, flags=re.DOTALL), re.MULTILINE)
@@ -236,7 +244,7 @@ def manifest(text: str, direction: str | None, warnings: list[str]) -> str:
         f"- Şekil numaraları: {st['figure_numbers']}; çizelge numaraları: {st['table_numbers']}",
         f"- Ayrık denklem: {st['display_equations']}; satır içi matematik: {st['inline_math']}",
         f"- Birleştirilmiş hücre (colspan/rowspan): {st['colspan_rowspan']}",
-        f"- Sayı adedi (ana metin, ondalık ayırıcı '{dec}'): {len(nums)}",
+        f"- Sayı adedi (ana metin, bölüm numaraları hariç, ondalık ayırıcı '{dec}'): {len(nums)}",
         f"- Yazar-yıl atıfı: {sum(cites.values())}; numaralı atıf: {sum(numbered.values())}",
         f"- DOI: {len(set(DOI_RE.findall(text)))}",
         "",

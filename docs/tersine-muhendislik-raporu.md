@@ -92,4 +92,8 @@ Gözlem: dosyada okunan ya da çalıştırılarak görülen olgu. Satır numaral
 | 4. Sınamaların kapsamı | Yanıtlandı | G13, G14 |
 | 5. Bilimsel makale ve Türkçe-İngilizce için eksikler | Yanıtlandı | Bölüm 6 |
 
-Sınır: Uyarlanan skill'in betikleri sentetik sınama metinleriyle sınandı. Çok ajanlı akışın tamamı bu raporun yazıldığı oturumda gerçek bir makale üzerinde uçtan uca çalıştırılmadı. Gerçek bir makaleyle ilk çalıştırmada ajan istemlerinin davranışı ve eşiklerin uygunluğu ayrıca değerlendirilmelidir.
+Sınama durumu:
+
+- Betikler sentetik sınama metinleriyle sınandı (`tests/`).
+- Çok ajanlı akışın tamamı sentetik kaynak üzerinde bir kez uçtan uca çalıştırıldı; çıktılar ve çeviri raporu [ornek-calisma](ornek-calisma/README.md) klasöründedir. Bu çalıştırma dört sorun ortaya çıkardı ve dördü giderildi: çevirmen isteminde aşamanın belirtilmemesi, çözülmemiş çevirmen işaretlerinin denetlenmemesi, yapı envanterinin bölüm numaralarını sayı sayması, sözlük birleştirmede araştırmacı kararının kaybolması.
+- Gerçek bir makale üzerinde çalıştırılmadı. Gerçek bir makaleyle ilk çalıştırmada ajan istemlerinin davranışı, eşiklerin uygunluğu ve terim araştırmacısının ağ erişimli bir ortamda kaynak açabilmesi ayrıca değerlendirilmelidir.
