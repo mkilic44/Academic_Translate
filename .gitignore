@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+*.swp
+*~
+ceviri-*/
+*.docx
+*.pdf
+!tests/fixtures/*.docx
