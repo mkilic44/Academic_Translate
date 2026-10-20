@@ -5,104 +5,634 @@
   "source_version": "1.2 (17 Eylül 2026)",
   "status_note": "Bu girdiler kullanıcının bağlayıcı sözlüğünden birebir aktarıldı. 'kaynak' alanı sozluk.md içindeki satır parçasıdır; tests/test_integrity.py bu parçanın kaynak dosyada geçtiğini denetler. Çevirmen bu karşılıkların yakın anlamlısını kullanmaz.",
   "entries": [
-    {"section": "Fiziksel özellikler", "tr": "toprak tekstürü", "en": "soil texture", "kaynak": "toprak tekstürü = soil texture"},
-    {"section": "Fiziksel özellikler", "tr": "tekstür sınıfı", "en": "textural class", "kaynak": "tekstür sınıfı = textural class"},
-    {"section": "Fiziksel özellikler", "tr": "kum", "en": "sand", "kaynak": "kum / silt / kil = sand / silt / clay", "qa": false},
-    {"section": "Fiziksel özellikler", "tr": "silt", "en": "silt", "kaynak": "kum / silt / kil = sand / silt / clay", "qa": false},
-    {"section": "Fiziksel özellikler", "tr": "kil", "en": "clay", "kaynak": "kum / silt / kil = sand / silt / clay", "qa": false},
-    {"section": "Fiziksel özellikler", "tr": "hacim ağırlığı", "en": "bulk density", "forbidden_en": ["volume weight"], "kaynak": "hacim ağırlığı = bulk density (asla \"volume weight\" değil)"},
-    {"section": "Fiziksel özellikler", "tr": "tane yoğunluğu", "en": "particle density", "kaynak": "tane yoğunluğu = particle density"},
-    {"section": "Fiziksel özellikler", "tr": "toprak strüktürü", "en": "soil structure", "kaynak": "toprak strüktürü = soil structure"},
-    {"section": "Fiziksel özellikler", "tr": "agregat stabilitesi", "en": "aggregate stability", "kaynak": "agregat stabilitesi = aggregate stability"},
-    {"section": "Fiziksel özellikler", "tr": "gözeneklilik", "en": "porosity", "kaynak": "gözeneklilik = porosity"},
-    {"section": "Fiziksel özellikler", "tr": "hidrolik iletkenlik", "en": "hydraulic conductivity", "kaynak": "hidrolik iletkenlik = hydraulic conductivity"},
-    {"section": "Fiziksel özellikler", "tr": "infiltrasyon", "en": "infiltration", "kaynak": "infiltrasyon = infiltration"},
-    {"section": "Fiziksel özellikler", "tr": "tarla kapasitesi", "en": "field capacity", "kaynak": "tarla kapasitesi = field capacity"},
-    {"section": "Fiziksel özellikler", "tr": "solma noktası", "en": "permanent wilting point", "kaynak": "solma noktası = permanent wilting point"},
-    {"section": "Fiziksel özellikler", "tr": "yarayışlı su tutma kapasitesi", "en": "available water capacity", "kaynak": "yarayışlı su tutma kapasitesi = available water capacity"},
-    {"section": "Fiziksel özellikler", "tr": "toprak sıkışması", "en": "soil compaction", "kaynak": "toprak sıkışması = soil compaction"},
-    {"section": "Fiziksel özellikler", "tr": "penetrasyon direnci", "en": "penetration resistance", "kaynak": "penetrasyon direnci = penetration resistance"},
-    {"section": "Fiziksel özellikler", "tr": "kabuk bağlama", "en": "surface crusting", "kaynak": "kabuk bağlama = surface crusting"},
-    {"section": "Fiziksel özellikler", "tr": "su tutma eğrisi", "en": "soil water retention curve", "kaynak": "su tutma eğrisi = soil water retention curve"},
-    {"section": "Fiziksel özellikler", "tr": "toprak nemi", "en": "soil moisture", "en_alternatives": ["soil water content"], "kaynak": "toprak nemi = soil moisture / soil water content"},
-
-    {"section": "Kimyasal özellikler", "tr": "katyon değişim kapasitesi", "abbr_tr": "KDK", "en": "cation exchange capacity", "abbr_en": "CEC", "kaynak": "katyon değişim kapasitesi (KDK) = cation exchange capacity (CEC)"},
-    {"section": "Kimyasal özellikler", "tr": "baz doygunluğu", "en": "base saturation", "kaynak": "baz doygunluğu = base saturation"},
-    {"section": "Kimyasal özellikler", "tr": "toprak organik karbonu", "abbr_tr": "TOK", "en": "soil organic carbon", "abbr_en": "SOC", "kaynak": "toprak organik karbonu (TOK) = soil organic carbon (SOC)"},
-    {"section": "Kimyasal özellikler", "tr": "organik madde", "en": "soil organic matter", "kaynak": "organik madde = soil organic matter"},
-    {"section": "Kimyasal özellikler", "tr": "elektriksel iletkenlik", "en": "electrical conductivity", "kaynak": "elektriksel iletkenlik = electrical conductivity"},
-    {"section": "Kimyasal özellikler", "tr": "tuzluluk", "en": "salinity", "kaynak": "tuzluluk = salinity"},
-    {"section": "Kimyasal özellikler", "tr": "sodyumluluk", "en": "sodicity", "kaynak": "sodyumluluk = sodicity"},
-    {"section": "Kimyasal özellikler", "tr": "değişebilir sodyum yüzdesi", "en": "exchangeable sodium percentage", "kaynak": "değişebilir sodyum yüzdesi = exchangeable sodium percentage"},
-    {"section": "Kimyasal özellikler", "tr": "sodyum adsorpsiyon oranı", "en": "sodium adsorption ratio", "kaynak": "sodyum adsorpsiyon oranı = sodium adsorption ratio"},
-    {"section": "Kimyasal özellikler", "tr": "toprak reaksiyonu", "en": "soil reaction", "kaynak": "toprak reaksiyonu = soil reaction"},
-    {"section": "Kimyasal özellikler", "tr": "kireç içeriği", "en": "calcium carbonate content", "en_alternatives": ["calcareousness"], "forbidden_en": ["lime content"], "kaynak": "kireç içeriği = calcium carbonate content / calcareousness (asla \"lime content\" değil)"},
-    {"section": "Kimyasal özellikler", "tr": "alınabilir fosfor", "en": "available phosphorus", "kaynak": "alınabilir fosfor = available phosphorus"},
-    {"section": "Kimyasal özellikler", "tr": "değişebilir katyonlar", "en": "exchangeable cations", "kaynak": "değişebilir katyonlar = exchangeable cations"},
-    {"section": "Kimyasal özellikler", "tr": "jips", "en": "gypsum", "kaynak": "jips = gypsum", "qa": false},
-
-    {"section": "Pedoloji ve morfoloji", "tr": "horizon", "en": "horizon", "kaynak": "horizon = horizon", "qa": false},
-    {"section": "Pedoloji ve morfoloji", "tr": "profil tanımlaması", "en": "profile description", "kaynak": "profil tanımlaması = profile description"},
-    {"section": "Pedoloji ve morfoloji", "tr": "solum", "en": "solum", "kaynak": "solum = solum", "qa": false},
-    {"section": "Pedoloji ve morfoloji", "tr": "ana materyal", "en": "parent material", "kaynak": "ana materyal = parent material"},
-    {"section": "Pedoloji ve morfoloji", "tr": "toprak oluşumu", "en": "pedogenesis", "en_alternatives": ["soil formation"], "kaynak": "toprak oluşumu = pedogenesis / soil formation"},
-    {"section": "Pedoloji ve morfoloji", "tr": "toprak oluş faktörleri", "en": "soil-forming factors", "kaynak": "toprak oluş faktörleri = soil-forming factors"},
-    {"section": "Pedoloji ve morfoloji", "tr": "büyük toprak grubu", "abbr_tr": "BTG", "en": "great soil group", "kaynak": "büyük toprak grubu (BTG) = great soil group"},
-    {"section": "Pedoloji ve morfoloji", "tr": "toprak serisi", "en": "soil series", "kaynak": "toprak serisi = soil series"},
-    {"section": "Pedoloji ve morfoloji", "tr": "eluviasyon", "en": "eluviation", "kaynak": "eluviasyon / illüviyasyon = eluviation / illuviation"},
-    {"section": "Pedoloji ve morfoloji", "tr": "illüviyasyon", "en": "illuviation", "kaynak": "eluviasyon / illüviyasyon = eluviation / illuviation"},
-    {"section": "Pedoloji ve morfoloji", "tr": "kil zarfı", "tr_alternatives": ["kutan"], "en": "clay coating", "en_alternatives": ["argillan"], "kaynak": "kil zarfı (kutan) = clay coating (argillan)"},
-    {"section": "Pedoloji ve morfoloji", "tr": "lekelenme", "en": "mottling", "en_alternatives": ["redoximorphic features"], "kaynak": "lekelenme = mottling / redoximorphic features"},
-    {"section": "Pedoloji ve morfoloji", "tr": "etkili kök derinliği", "en": "effective rooting depth", "kaynak": "etkili kök derinliği = effective rooting depth"},
-    {"section": "Pedoloji ve morfoloji", "tr": "taşlılık", "en": "rock fragment content", "en_alternatives": ["stoniness"], "kaynak": "taşlılık = rock fragment content / stoniness"},
-    {"section": "Pedoloji ve morfoloji", "tr": "drenaj", "en": "drainage", "kaynak": "drenaj = drainage", "qa": false},
-
-    {"section": "Arazi, bozulum, yönetim", "tr": "arazi bozulumu", "tr_alternatives": ["arazi bozulması"], "en": "land degradation", "kaynak": "arazi bozulumu (bozulması) = land degradation"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "toprak bozulumu", "en": "soil degradation", "kaynak": "toprak bozulumu = soil degradation"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "organik madde bozunması", "en": "organic matter decomposition", "note": "degradation ile karıştırılmaz", "kaynak": "organik madde bozunması = organic matter decomposition (degradation ile karıştırılmaz)"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "ayrışma", "en": "weathering", "kaynak": "ayrışma = weathering"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "mineralizasyon", "en": "mineralization", "kaynak": "mineralizasyon = mineralization"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "çölleşme", "en": "desertification", "kaynak": "çölleşme = desertification"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "tuzlulaşma", "en": "salinization", "kaynak": "tuzlulaşma = salinization"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "sodyumlaşma", "en": "sodification", "kaynak": "sodyumlaşma = sodification"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "erozyon", "en": "erosion", "kaynak": "erozyon = erosion"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "toprak verimliliği", "en": "soil fertility", "forbidden_en": ["soil productivity"], "kaynak": "toprak verimliliği = soil fertility (productivity değil)"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "arazi üretkenliği", "en": "land productivity", "kaynak": "arazi üretkenliği = land productivity"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "toprak işleme", "en": "tillage", "kaynak": "toprak işleme = tillage"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "korumalı toprak işleme", "en": "conservation tillage", "kaynak": "korumalı toprak işleme = conservation tillage"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "anız", "en": "crop residue", "en_alternatives": ["stubble"], "kaynak": "anız = crop residue / stubble", "qa": false},
-    {"section": "Arazi, bozulum, yönetim", "tr": "ıslah", "en": "reclamation", "en_alternatives": ["amelioration"], "forbidden_en_if_source": ["improvement"], "kaynak": "ıslah = reclamation / amelioration (\"improvement\" değil)"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "münavebe", "en": "crop rotation", "kaynak": "münavebe = crop rotation"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "arazi kullanımı", "en": "land use", "kaynak": "arazi kullanımı = land use"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "arazi örtüsü", "en": "land cover", "kaynak": "arazi örtüsü = land cover"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "arazi değerlendirme", "en": "land evaluation", "kaynak": "arazi değerlendirme = land evaluation"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "toprak etüdü ve haritalama", "en": "soil survey and mapping", "kaynak": "toprak etüdü ve haritalama = soil survey and mapping"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "arazi kullanım kabiliyet sınıfı", "en": "land capability class", "kaynak": "arazi kullanım kabiliyet sınıfı = land capability class"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "toprak kalitesi", "en": "soil quality", "note": "toprak sağlığı ile ayrı kavram, birleştirilmez", "kaynak": "toprak kalitesi = soil quality"},
-    {"section": "Arazi, bozulum, yönetim", "tr": "toprak sağlığı", "en": "soil health", "note": "toprak kalitesi ile ayrı kavram, birleştirilmez", "kaynak": "toprak sağlığı = soil health (ayrı kavramlar, birleştirilmez)"},
-
-    {"section": "Sayısal haritalama ve istatistik", "tr": "sayısal toprak haritalama", "en": "digital soil mapping", "kaynak": "sayısal toprak haritalama = digital soil mapping"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "yardımcı değişkenler", "tr_alternatives": ["çevresel değişkenler"], "en": "environmental covariates", "kaynak": "yardımcı / çevresel değişkenler = environmental covariates"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "örnekleme deseni", "en": "sampling design", "kaynak": "örnekleme deseni = sampling design"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "mekânsal otokorelasyon", "en": "spatial autocorrelation", "kaynak": "mekânsal otokorelasyon = spatial autocorrelation"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "yarı-variogram", "en": "semivariogram", "kaynak": "yarı-variogram = semivariogram"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "külçe etkisi", "en": "nugget", "kaynak": "külçe etkisi = nugget"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "eşik", "en": "sill", "kaynak": "eşik = sill", "qa": false},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "etki mesafesi", "en": "range", "kaynak": "etki mesafesi = range", "qa": false, "note": "İngilizce 'range' çok anlamlıdır; yalnız yarı-variogram bağlamında 'etki mesafesi' olur. Otomatik denetim dışında, denetçi bağlama bakar."},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "çapraz doğrulama", "en": "cross-validation", "kaynak": "çapraz doğrulama = cross-validation"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "bağımsız doğrulama", "en": "independent validation", "kaynak": "bağımsız doğrulama = independent validation"},
-    {"section": "Sayısal haritalama ve istatistik", "tr": "belirsizlik", "en": "uncertainty", "kaynak": "belirsizlik = uncertainty"},
-
-    {"section": "Kısaltma kuralı", "tr": "ortalama kare hatanın karekökü", "en": "root mean squared error", "abbr_en": "RMSE", "note": "Türkçe metinde İngilizce açılım ve RMSE birlikte verilir: ortalama kare hatanın karekökü (root mean squared error, RMSE).", "kaynak": "ortalama kare hatanın karekökü (root mean squared error, RMSE)"}
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "toprak tekstürü",
+      "en": "soil texture",
+      "kaynak": "toprak tekstürü = soil texture"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "tekstür sınıfı",
+      "en": "textural class",
+      "kaynak": "tekstür sınıfı = textural class"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "kum",
+      "en": "sand",
+      "kaynak": "kum / silt / kil = sand / silt / clay",
+      "qa": false
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "silt",
+      "en": "silt",
+      "kaynak": "kum / silt / kil = sand / silt / clay",
+      "qa": false
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "kil",
+      "en": "clay",
+      "kaynak": "kum / silt / kil = sand / silt / clay",
+      "qa": false
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "hacim ağırlığı",
+      "en": "bulk density",
+      "forbidden_en": [
+        "volume weight"
+      ],
+      "kaynak": "hacim ağırlığı = bulk density (asla \"volume weight\" değil)"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "tane yoğunluğu",
+      "en": "particle density",
+      "kaynak": "tane yoğunluğu = particle density"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "toprak strüktürü",
+      "en": "soil structure",
+      "kaynak": "toprak strüktürü = soil structure"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "agregat stabilitesi",
+      "en": "aggregate stability",
+      "kaynak": "agregat stabilitesi = aggregate stability"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "gözeneklilik",
+      "en": "porosity",
+      "kaynak": "gözeneklilik = porosity"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "hidrolik iletkenlik",
+      "en": "hydraulic conductivity",
+      "kaynak": "hidrolik iletkenlik = hydraulic conductivity"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "infiltrasyon",
+      "en": "infiltration",
+      "kaynak": "infiltrasyon = infiltration"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "tarla kapasitesi",
+      "en": "field capacity",
+      "kaynak": "tarla kapasitesi = field capacity"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "solma noktası",
+      "en": "permanent wilting point",
+      "kaynak": "solma noktası = permanent wilting point"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "yarayışlı su tutma kapasitesi",
+      "en": "available water capacity",
+      "kaynak": "yarayışlı su tutma kapasitesi = available water capacity"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "toprak sıkışması",
+      "en": "soil compaction",
+      "kaynak": "toprak sıkışması = soil compaction"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "penetrasyon direnci",
+      "en": "penetration resistance",
+      "kaynak": "penetrasyon direnci = penetration resistance"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "kabuk bağlama",
+      "en": "surface crusting",
+      "kaynak": "kabuk bağlama = surface crusting"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "su tutma eğrisi",
+      "en": "soil water retention curve",
+      "kaynak": "su tutma eğrisi = soil water retention curve"
+    },
+    {
+      "section": "Fiziksel özellikler",
+      "tr": "toprak nemi",
+      "en": "soil moisture",
+      "en_alternatives": [
+        "soil water content"
+      ],
+      "kaynak": "toprak nemi = soil moisture / soil water content"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "katyon değişim kapasitesi",
+      "abbr_tr": "KDK",
+      "en": "cation exchange capacity",
+      "abbr_en": "CEC",
+      "kaynak": "katyon değişim kapasitesi (KDK) = cation exchange capacity (CEC)"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "baz doygunluğu",
+      "en": "base saturation",
+      "kaynak": "baz doygunluğu = base saturation"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "toprak organik karbonu",
+      "abbr_tr": "TOK",
+      "en": "soil organic carbon",
+      "abbr_en": "SOC",
+      "kaynak": "toprak organik karbonu (TOK) = soil organic carbon (SOC)"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "organik madde",
+      "en": "soil organic matter",
+      "kaynak": "organik madde = soil organic matter"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "elektriksel iletkenlik",
+      "en": "electrical conductivity",
+      "kaynak": "elektriksel iletkenlik = electrical conductivity"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "tuzluluk",
+      "en": "salinity",
+      "kaynak": "tuzluluk = salinity"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "sodyumluluk",
+      "en": "sodicity",
+      "kaynak": "sodyumluluk = sodicity"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "değişebilir sodyum yüzdesi",
+      "en": "exchangeable sodium percentage",
+      "kaynak": "değişebilir sodyum yüzdesi = exchangeable sodium percentage"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "sodyum adsorpsiyon oranı",
+      "en": "sodium adsorption ratio",
+      "kaynak": "sodyum adsorpsiyon oranı = sodium adsorption ratio"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "toprak reaksiyonu",
+      "en": "soil reaction",
+      "kaynak": "toprak reaksiyonu = soil reaction"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "kireç içeriği",
+      "en": "calcium carbonate content",
+      "en_alternatives": [
+        "calcareousness"
+      ],
+      "forbidden_en": [
+        "lime content"
+      ],
+      "kaynak": "kireç içeriği = calcium carbonate content / calcareousness (asla \"lime content\" değil)"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "alınabilir fosfor",
+      "en": "available phosphorus",
+      "kaynak": "alınabilir fosfor = available phosphorus"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "değişebilir katyonlar",
+      "en": "exchangeable cations",
+      "kaynak": "değişebilir katyonlar = exchangeable cations"
+    },
+    {
+      "section": "Kimyasal özellikler",
+      "tr": "jips",
+      "en": "gypsum",
+      "kaynak": "jips = gypsum",
+      "qa": false
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "horizon",
+      "en": "horizon",
+      "kaynak": "horizon = horizon",
+      "qa": false
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "profil tanımlaması",
+      "en": "profile description",
+      "kaynak": "profil tanımlaması = profile description"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "solum",
+      "en": "solum",
+      "kaynak": "solum = solum",
+      "qa": false
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "ana materyal",
+      "en": "parent material",
+      "kaynak": "ana materyal = parent material"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "toprak oluşumu",
+      "en": "pedogenesis",
+      "en_alternatives": [
+        "soil formation"
+      ],
+      "kaynak": "toprak oluşumu = pedogenesis / soil formation"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "toprak oluş faktörleri",
+      "en": "soil-forming factors",
+      "kaynak": "toprak oluş faktörleri = soil-forming factors"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "büyük toprak grubu",
+      "abbr_tr": "BTG",
+      "en": "great soil group",
+      "kaynak": "büyük toprak grubu (BTG) = great soil group"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "toprak serisi",
+      "en": "soil series",
+      "kaynak": "toprak serisi = soil series"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "eluviasyon",
+      "en": "eluviation",
+      "kaynak": "eluviasyon / illüviyasyon = eluviation / illuviation"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "illüviyasyon",
+      "en": "illuviation",
+      "kaynak": "eluviasyon / illüviyasyon = eluviation / illuviation"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "kil zarfı",
+      "tr_alternatives": [
+        "kutan"
+      ],
+      "en": "clay coating",
+      "en_alternatives": [
+        "argillan"
+      ],
+      "kaynak": "kil zarfı (kutan) = clay coating (argillan)"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "lekelenme",
+      "en": "mottling",
+      "en_alternatives": [
+        "redoximorphic features"
+      ],
+      "kaynak": "lekelenme = mottling / redoximorphic features"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "etkili kök derinliği",
+      "en": "effective rooting depth",
+      "kaynak": "etkili kök derinliği = effective rooting depth"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "taşlılık",
+      "en": "rock fragment content",
+      "en_alternatives": [
+        "stoniness"
+      ],
+      "kaynak": "taşlılık = rock fragment content / stoniness"
+    },
+    {
+      "section": "Pedoloji ve morfoloji",
+      "tr": "drenaj",
+      "en": "drainage",
+      "kaynak": "drenaj = drainage",
+      "qa": false
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "arazi bozulumu",
+      "tr_alternatives": [
+        "arazi bozulması"
+      ],
+      "en": "land degradation",
+      "kaynak": "arazi bozulumu (bozulması) = land degradation"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "toprak bozulumu",
+      "en": "soil degradation",
+      "kaynak": "toprak bozulumu = soil degradation"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "organik madde bozunması",
+      "en": "organic matter decomposition",
+      "note": "degradation ile karıştırılmaz",
+      "kaynak": "organik madde bozunması = organic matter decomposition (degradation ile karıştırılmaz)"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "ayrışma",
+      "en": "weathering",
+      "kaynak": "ayrışma = weathering"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "mineralizasyon",
+      "en": "mineralization",
+      "kaynak": "mineralizasyon = mineralization"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "çölleşme",
+      "en": "desertification",
+      "kaynak": "çölleşme = desertification"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "tuzlulaşma",
+      "en": "salinization",
+      "kaynak": "tuzlulaşma = salinization"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "sodyumlaşma",
+      "en": "sodification",
+      "kaynak": "sodyumlaşma = sodification"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "erozyon",
+      "en": "erosion",
+      "kaynak": "erozyon = erosion"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "toprak verimliliği",
+      "en": "soil fertility",
+      "forbidden_en": [
+        "soil productivity"
+      ],
+      "kaynak": "toprak verimliliği = soil fertility (productivity değil)"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "arazi üretkenliği",
+      "en": "land productivity",
+      "kaynak": "arazi üretkenliği = land productivity"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "toprak işleme",
+      "en": "tillage",
+      "kaynak": "toprak işleme = tillage"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "korumalı toprak işleme",
+      "en": "conservation tillage",
+      "kaynak": "korumalı toprak işleme = conservation tillage"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "anız",
+      "en": "crop residue",
+      "en_alternatives": [
+        "stubble"
+      ],
+      "kaynak": "anız = crop residue / stubble",
+      "qa": false
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "ıslah",
+      "en": "reclamation",
+      "en_alternatives": [
+        "amelioration"
+      ],
+      "forbidden_en_if_source": [
+        "improvement"
+      ],
+      "kaynak": "ıslah = reclamation / amelioration (\"improvement\" değil)"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "münavebe",
+      "en": "crop rotation",
+      "kaynak": "münavebe = crop rotation"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "arazi kullanımı",
+      "en": "land use",
+      "kaynak": "arazi kullanımı = land use"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "arazi örtüsü",
+      "en": "land cover",
+      "kaynak": "arazi örtüsü = land cover"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "arazi değerlendirme",
+      "en": "land evaluation",
+      "kaynak": "arazi değerlendirme = land evaluation"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "toprak etüdü ve haritalama",
+      "en": "soil survey and mapping",
+      "kaynak": "toprak etüdü ve haritalama = soil survey and mapping"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "arazi kullanım kabiliyet sınıfı",
+      "en": "land capability class",
+      "kaynak": "arazi kullanım kabiliyet sınıfı = land capability class"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "toprak kalitesi",
+      "en": "soil quality",
+      "note": "toprak sağlığı ile ayrı kavram, birleştirilmez",
+      "kaynak": "toprak kalitesi = soil quality"
+    },
+    {
+      "section": "Arazi, bozulum, yönetim",
+      "tr": "toprak sağlığı",
+      "en": "soil health",
+      "note": "toprak kalitesi ile ayrı kavram, birleştirilmez",
+      "kaynak": "toprak sağlığı = soil health (ayrı kavramlar, birleştirilmez)"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "sayısal toprak haritalama",
+      "en": "digital soil mapping",
+      "kaynak": "sayısal toprak haritalama = digital soil mapping"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "yardımcı değişkenler",
+      "tr_alternatives": [
+        "çevresel değişkenler"
+      ],
+      "en": "environmental covariates",
+      "kaynak": "yardımcı / çevresel değişkenler = environmental covariates"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "örnekleme deseni",
+      "en": "sampling design",
+      "kaynak": "örnekleme deseni = sampling design"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "mekânsal otokorelasyon",
+      "en": "spatial autocorrelation",
+      "kaynak": "mekânsal otokorelasyon = spatial autocorrelation"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "yarı-variogram",
+      "en": "semivariogram",
+      "kaynak": "yarı-variogram = semivariogram"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "külçe etkisi",
+      "en": "nugget",
+      "kaynak": "külçe etkisi = nugget",
+      "context": "yarı-variogram",
+      "note": "Yalnız yarı-variogram bağlamında geçerli. Başka bağlamda (örnek: eşik değer = threshold) bu eşleme uygulanmaz."
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "eşik",
+      "en": "sill",
+      "kaynak": "eşik = sill",
+      "qa": false,
+      "context": "yarı-variogram",
+      "note": "Yalnız yarı-variogram bağlamında geçerli. Başka bağlamda (örnek: eşik değer = threshold) bu eşleme uygulanmaz."
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "etki mesafesi",
+      "en": "range",
+      "kaynak": "etki mesafesi = range",
+      "qa": false,
+      "note": "İngilizce 'range' çok anlamlıdır; yalnız yarı-variogram bağlamında 'etki mesafesi' olur. Otomatik denetim dışında, denetçi bağlama bakar. Yalnız yarı-variogram bağlamında geçerli. Başka bağlamda (örnek: eşik değer = threshold) bu eşleme uygulanmaz.",
+      "context": "yarı-variogram"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "çapraz doğrulama",
+      "en": "cross-validation",
+      "kaynak": "çapraz doğrulama = cross-validation"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "bağımsız doğrulama",
+      "en": "independent validation",
+      "kaynak": "bağımsız doğrulama = independent validation"
+    },
+    {
+      "section": "Sayısal haritalama ve istatistik",
+      "tr": "belirsizlik",
+      "en": "uncertainty",
+      "kaynak": "belirsizlik = uncertainty"
+    },
+    {
+      "section": "Kısaltma kuralı",
+      "tr": "ortalama kare hatanın karekökü",
+      "en": "root mean squared error",
+      "abbr_en": "RMSE",
+      "note": "Türkçe metinde İngilizce açılım ve RMSE birlikte verilir: ortalama kare hatanın karekökü (root mean squared error, RMSE).",
+      "kaynak": "ortalama kare hatanın karekökü (root mean squared error, RMSE)"
+    }
   ],
   "global_forbidden_en": [
-    {"term": "deterioration", "kaynak": "\"deterioration\" hiçbir bağlamda kullanılmaz"}
+    {
+      "term": "deterioration",
+      "kaynak": "\"deterioration\" hiçbir bağlamda kullanılmaz"
+    }
   ],
   "consistency_groups": [
-    {"variants": ["tekstür", "bünye"], "lang": "tr", "kaynak": "tekstür / bünye", "match": "word"},
-    {"variants": ["toprak strüktürü", "toprak yapısı"], "lang": "tr", "kaynak": "strüktür / yapı", "match": "term", "note": "Yalın 'yapı' çok genel bir sözcük olduğu için yalnız tamlama biçimi denetlenir."},
-    {"variants": ["silt", "mil"], "lang": "tr", "kaynak": "silt / mil", "match": "word"},
-    {"variants": ["KDK", "KEK"], "lang": "tr", "kaynak": "KDK / KEK", "match": "abbr"},
-    {"variants": ["kriging", "krigleme"], "lang": "tr", "kaynak": "kriging / krigleme", "match": "word"}
+    {
+      "variants": [
+        "tekstür",
+        "bünye"
+      ],
+      "lang": "tr",
+      "kaynak": "tekstür / bünye",
+      "match": "word"
+    },
+    {
+      "variants": [
+        "toprak strüktürü",
+        "toprak yapısı"
+      ],
+      "lang": "tr",
+      "kaynak": "strüktür / yapı",
+      "match": "term",
+      "note": "Yalın 'yapı' çok genel bir sözcük olduğu için yalnız tamlama biçimi denetlenir."
+    },
+    {
+      "variants": [
+        "silt",
+        "mil"
+      ],
+      "lang": "tr",
+      "kaynak": "silt / mil",
+      "match": "word"
+    },
+    {
+      "variants": [
+        "KDK",
+        "KEK"
+      ],
+      "lang": "tr",
+      "kaynak": "KDK / KEK",
+      "match": "abbr"
+    },
+    {
+      "variants": [
+        "kriging",
+        "krigleme"
+      ],
+      "lang": "tr",
+      "kaynak": "kriging / krigleme",
+      "match": "word"
+    }
   ]
 }

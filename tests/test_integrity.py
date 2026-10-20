@@ -71,7 +71,8 @@ class TestLinks(unittest.TestCase):
 
     def test_backtick_paths_in_skill_resolve(self):
         text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-        paths = set(re.findall(r"(?:scripts|references|domains)/[\w./-]+\.(?:py|md|json)", text))
+        # $DOCX_SKILL/... başka bir skill'in dosyasıdır; yalnız bu deponun yolları denetlenir.
+        paths = set(re.findall(r"(?<!DOCX_SKILL/)(?:scripts|references|domains)/[\w./-]+\.(?:py|md|json)", text))
         missing = [p for p in paths if not (ROOT / p).exists()]
         self.assertEqual(missing, [])
 

@@ -11,6 +11,8 @@ Kurallar:
   ya da alan paketi dışından gelen, karşılığı dolu girdi) > alan paketinden gelen,
   karşılığı dolu girdi > karşılığı boş girdi. Eşit öncelikte sonra verilen dosya
   kazanır; bu yüzden araştırma dosyası tohum dosyasından sonra verilir.
+- status "bağlayıcı-bağlamlı" girdi (örnek: eşik = sill, yalnız yarı-variogram) bağlayıcı
+  sayılmaz. Yönetici, bağlam bu belgede yoksa status "bağlam-dışı" bir girdiyle onu ezer.
 - Araştırmacı bağlayıcı bir girdiye farklı karşılık önerirse bağlayıcı girdi kalır;
   öneri metadata.conflicts listesine yazılır. Bu liste çeviri raporunda
   "kullanıcı kararı gerekir" diye verilir.
@@ -29,6 +31,9 @@ from pathlib import Path
 def rank(t: dict) -> int:
     """Küçük değer öncelikli. Eşitlikte sonra verilen dosyanın girdisi kazanır."""
     if t.get("status") == "bağlayıcı":
+        return 0
+    if t.get("status") == "bağlam-dışı":
+        # Yönetici kararı: bağlama bağlı bir eşleme bu belgede uygulanmaz.
         return 0
     if not t.get("translation"):
         return 4
@@ -62,7 +67,8 @@ def merge(glossaries: list[dict]) -> dict:
             if cur is None:
                 by_key[key] = t
                 continue
-            if cur.get("status") == "bağlayıcı" and t.get("translation") and t.get("translation") != cur.get("translation"):
+            if cur.get("status") == "bağlayıcı" and t.get("translation") and t.get("translation") != cur.get("translation") \
+                    and t.get("status") != "bağlam-dışı":
                 conflicts.append({"original": t["original"], "binding": cur.get("translation"), "proposed": t.get("translation"),
                                   "notes": t.get("notes", "")})
                 continue

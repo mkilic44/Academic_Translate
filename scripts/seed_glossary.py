@@ -56,9 +56,14 @@ def _context(text: str, pos: int) -> str:
     return line[:300]
 
 
-def _spans(text: str, key: str, lang: str) -> list[tuple[int, int]]:
+def _spans(text: str, key: str, lang: str, strict_short: bool = False) -> list[tuple[int, int]]:
     if is_abbr(key):
         return [m.span() for m in abbreviation_pattern(key).finditer(text)]
+    if strict_short and " " not in key.strip() and len(key.strip()) <= 4:
+        # Kısa tek sözcük öneri anahtarı ("faz") yalnız tam sözcük olarak ya da kesme
+        # işaretli ekle eşleşir; "fazla" gibi başka sözcükleri yakalamaz.
+        rx = re.compile(r"(?<![\wçğıöşüÇĞİÖŞÜ])" + re.escape(key.strip()) + r"(?:'[\wçğıöşü]*)?(?![\wçğıöşüÇĞİÖŞÜ])", re.IGNORECASE)
+        return [m.span() for m in rx.finditer(text)]
     return find_spans(text, key, lang)
 
 
@@ -129,6 +134,7 @@ def seed(source_text: str, direction: str, domains: list[Path]) -> dict:
                 continue
             forbidden = e.get("forbidden_en", []) + e.get("forbidden_en_if_source", []) if tgt_lang == "en" else []
             abbr_tgt = e.get(f"abbr_{tgt_lang}") or e.get("abbr_en")
+            contextual = bool(e.get("context"))
             terms.append(
                 {
                     "original": e[src_lang],
@@ -137,14 +143,15 @@ def seed(source_text: str, direction: str, domains: list[Path]) -> dict:
                     "forbidden": forbidden,
                     "abbreviation": {"source": abbr_src, "target": abbr_tgt} if (abbr_src or abbr_tgt) else None,
                     "category": "technical",
-                    "status": "bağlayıcı",
+                    "status": "bağlayıcı-bağlamlı" if contextual else "bağlayıcı",
+                    "context_required": e.get("context"),
                     "confidence": "high",
                     "origin": origin,
                     "context": _context(text, min(full)[0]),
                     "occurrences": len(full),
                     "sources": [bind_src],
                     "notes": e.get("note", ""),
-                    "enforce": e.get("qa", True),
+                    "enforce": False if contextual else e.get("qa", True),
                 }
             )
 
@@ -153,7 +160,7 @@ def seed(source_text: str, direction: str, domains: list[Path]) -> dict:
             origin = f"domain:{domain.name}/oneriler:{e['id']}"
             if e.get("pairs"):
                 for p in e["pairs"]:
-                    sp = _outside(_spans(text, p[src_lang], src_lang), taken)
+                    sp = _outside(_spans(text, p[src_lang], src_lang, strict_short=True), taken)
                     if not sp:
                         continue
                     taken.extend(sp)
@@ -168,7 +175,7 @@ def seed(source_text: str, direction: str, domains: list[Path]) -> dict:
                 if e.get("preferred_tr") and e["preferred_tr"] not in full_keys:
                     full_keys.insert(0, e["preferred_tr"])
                 abbr_keys = [k for k in e["en_keys"] if is_abbr(k)]
-            full_hits = {k: _outside(_spans(text, k, src_lang), taken) for k in full_keys}
+            full_hits = {k: _outside(_spans(text, k, src_lang, strict_short=True), taken) for k in full_keys}
             full_hits = {k: v for k, v in full_hits.items() if v}
             abbr_hits = {k: _outside(_spans(text, k, src_lang), taken) for k in abbr_keys}
             abbr_hits = {k: v for k, v in abbr_hits.items() if v}

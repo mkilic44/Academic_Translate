@@ -92,6 +92,26 @@ Kaynak biçimi kuralları:
 - PDF yalnız başka kaynak yoksa kullanılır. Başlık düzeyleri kaybolur, çizelgeler düz metne döner, Word denklemleri tamamen düşebilir, üst simgeler düzleşir (cm-3 ile cm3 karışır), iki sütunlu düzende okuma sırası bozulabilir. Bu skill'in sınamasında DOCX'ten üretilen bir PDF'te başlıklar, çizelge yapısı ve denklem kayboldu. PDF kullanıldıysa başlıkları, her çizelgeyi ve denklemi PDF sayfasıyla karşılaştır ve `source.md` dosyasında yeniden kur. Bunu rapora yaz.
 - LaTeX kaynağı varsa komutlar, `\cite{}` anahtarları ve denklem ortamları olduğu gibi kalır; yalnız metin çevrilir.
 
+### 0.2b Word kaynağında biçimi koruyan yol (çıktı .docx isteniyorsa önerilir)
+
+Markdown yolu şekil, Word denklemi, çizelge biçimi ve sayfa düzenini kaybeder. Kaynak .docx ise ve çıktı .docx isteniyorsa çeviri özgün paketin içine yazılır:
+
+```bash
+python "$DOCX_SKILL/scripts/merge_runs.py" MAKALE.docx -o WS/kaynak_merged.docx   # docx skill'i varsa
+python "$SKILL_DIR/scripts/docx_segments.py" extract WS/kaynak_merged.docx --out WS/seg
+python "$SKILL_DIR/scripts/docx_segments.py" render WS/kaynak_merged.docx --out WS/source.md
+```
+
+`WS/seg/source.txt` her Word paragrafını tek satır yapar: `[[p0042|biçem]] metin`. İtalik, alt ve üst simge `<i>`, `<sub>`, `<sup>` etiketiyle; denklem, görsel ve bağlantı `{M1}`, `{IMG1}`, `{H1}` yer tutucusuyla gösterilir. Çevirmen satır sayısını, etiketleri ve yer tutucuları korur ve çıktısını `docx_segments.py check` ile denetler. Bitince:
+
+```bash
+python "$SKILL_DIR/scripts/docx_segments.py" apply WS/kaynak_merged.docx --segments WS/seg \
+  --translations WS/ceviri.txt --out MAKALE.en.docx --lang en-GB --math-map WS/notation.json
+python "$SKILL_DIR/scripts/docx_segments.py" render MAKALE.en.docx --out WS/hedef.md   # qa_checks.py girdisi
+```
+
+`--math-map` denklem içindeki Türkçe alt simgeleri değiştirir (örnek: `{"gece": "night"}`); aynı eşleme çevirmenlere notasyon çizelgesi olarak verilir. Görselin içindeki yazı çevrilmez; yönetici şekilleri açıp okur. Şekiller hedef dilde ise içlerindeki terimler proje sözlüğüne "yazar-şekil" olarak girer ve metin onlarla tutarlı çevrilir.
+
 ### 0.3 Parametreleri belirle
 
 `WS/params.json` yöne göre varsayılanlarla gelir. Hedef dergi kuralı farklıysa dosyayı düzenle.
@@ -179,6 +199,8 @@ DÜZELTME AŞAMASI (yönetici çağırınca):
 ```
 
 Parçalı modda aynı istem şu farklarla kullanılır: kaynak `[WS]/chunks/chunk-N.md`, çıktı `[WS]/first-pass-chunk-N.md`, yapı raporu `[WS]/structure-report-chunk-N.md`. Çevirmen kendi parçasının dışındaki başlık numaralarını değiştirmez. Kaynakça `references.md` dosyasındadır ve parçalara dahil değildir.
+
+**Yüksek doğruluk düzeni (bölüm bölüm).** Kullanıcı yüksek doğruluk isterse, metin 6000 sözcüğün altında olsa da bölüm sınırlarında 800-1200 sözcüklük parçalara bölünür. Gerekçe: her çevirmen kendi parçasını paragraf paragraf doğrulayabilecek kadar kısa bir işe odaklanır; eksiltme ve özetleme riski azalır. Tutarlılık için her çevirmen önce makalenin tamamını bağlam olarak okur ve hepsi aynı sözlüğü ve proje kurallarını kullanır. Denetim iki katmanlıdır: her parçaya ayrı denetçi, sonra bütün metni okuyan tek bir tutarlılık denetçisi (terim, kısaltma tanımı, notasyon, gönderme numaraları, yazım türü). Düzeltmeyi parçayı çeviren ajan yapar (`SendMessage` ile bağlamını koruyarak). Bu düzenin daha doğru olduğu ölçülerek gösterilmiş değildir; doğruluk, otomatik denetim ve denetçi bulgularıyla her çeviride ayrıca ölçülür ve raporlanır.
 
 ### Terim araştırmacısı istemi
 

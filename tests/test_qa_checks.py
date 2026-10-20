@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -278,3 +279,97 @@ class TestPrepareRoundTrip(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTrEnFeatures(unittest.TestCase):
+    def _run(self, src_text, tgt_text, params):
+        with tempfile.TemporaryDirectory() as tmp:
+            s = Path(tmp) / "s.md"
+            t = Path(tmp) / "t.md"
+            s.write_text(src_text, encoding="utf-8")
+            t.write_text(tgt_text, encoding="utf-8")
+            return run_qa(s, t, "tr-en", params=params)
+
+    def test_citation_alias_for_institutional_author(self):
+        src = "Üretim azalmıştır (Türkiye İstatistik Kurumu, 2026).\n"
+        tgt = "Production decreased (Turkish Statistical Institute, 2026).\n"
+        r = self._run(src, tgt, {"source_decimal": ".", "citation_aliases": {"Türkiye İstatistik Kurumu": "Turkish Statistical Institute"}})
+        self.assertEqual([f for f in r.findings if f["check"] == "citations"], [])
+
+    def test_reference_connectors_mode(self):
+        src = "Metin (Kaya ve ark., 2018).\n\n## Kaynaklar\n\nKaya, Ö., Köse, C. ve Geçim, T. (2018). An exothermic process. Sci. Hortic.\n\nMeteostat. (t.y.). Data [Veri kümesi]. Erişim: 13 Ekim 2026.\n"
+        good = "Text (Kaya et al., 2018).\n\n## References\n\nKaya, Ö., Köse, C., & Geçim, T. (2018). An exothermic process. Sci. Hortic.\n\nMeteostat. (n.d.). Data [Data set]. Accessed: 13 October 2026.\n"
+        bad = "Text (Kaya et al., 2018).\n\n## References\n\nKaya, Ö., Köse, C. ve Geçim, T. (2019). An exothermic process. Sci. Hortic.\n"
+        p = {"source_decimal": ".", "translate_references": "connectors"}
+        self.assertEqual([f for f in self._run(src, good, p).findings if f["check"] == "references"], [])
+        msgs = " | ".join(f["message"] for f in self._run(src, bad, p).findings if f["check"] == "references")
+        self.assertIn("girdi sayısı farklı", msgs)
+        self.assertIn("girdisi 1 değişmiş", msgs)
+        self.assertIn("Türkçe künye", msgs)
+
+    def test_turkish_leftovers_in_english(self):
+        r = self._run("Bahçe verimi ölçülmüştür.\n", "Orchard yield ölçülmüştür ve recorded.\n", {"source_decimal": "."})
+        self.assertTrue(any("Türkçe sözcük" in f["message"] for f in r.findings))
+
+
+@unittest.skipUnless(shutil.which("pandoc"), "pandoc yok")
+class TestDocxSegments(unittest.TestCase):
+    def setUp(self):
+        import docx_segments
+        self.ds = docx_segments
+        self.tmp = Path(tempfile.mkdtemp())
+        md = self.tmp / "k.md"
+        md.write_text(
+            "# Giriş\n\nKayısıda (*Prunus armeniaca* L.) don, $T_{50} = 2$ ile hesaplanmıştır; GDH~gece~ değeri.\n\n"
+            "| Evre | Gün |\n|---|---|\n| Tam çiçek | 0 |\n\nBağlantı: <https://doi.org/10.5555/x>\n",
+            encoding="utf-8")
+        self.docx = self.tmp / "k.docx"
+        subprocess.run(["pandoc", str(md), "-o", str(self.docx)], check=True)
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_identity_roundtrip_and_translation(self):
+        seg = self.tmp / "seg"
+        info = self.ds.extract(self.docx, seg)
+        self.assertEqual(info["placeholders"].get("M"), 1)
+        src = (seg / "source.txt").read_text(encoding="utf-8")
+        self.assertIn("<i>Prunus armeniaca</i>", src)
+        self.assertIn("<sub>gece</sub>", src)
+        # Kimlik: çeviri = kaynak, metin aynı kalmalı
+        same = self.tmp / "same.docx"
+        rep = self.ds.apply(self.docx, seg, seg / "source.txt", same, None, None, None, None)
+        self.assertEqual(rep["problems"], {})
+        a = subprocess.run(["pandoc", str(self.docx), "-t", "plain"], capture_output=True, text=True).stdout
+        b = subprocess.run(["pandoc", str(same), "-t", "plain"], capture_output=True, text=True).stdout
+        self.assertEqual(a, b)
+        # Çeviri: etiketler ve yer tutucu korunur, denklem içi alt simge eşlemesi uygulanır
+        lines = []
+        for ln in src.splitlines():
+            m = self.ds.LINE_RE.match(ln)
+            t = m.group(2)
+            t = t.replace("Giriş", "Introduction").replace("Tam çiçek", "Full bloom").replace("Evre", "Stage").replace("Gün", "Day")
+            t = t.replace("Kayısıda", "In apricot").replace("ile hesaplanmıştır", "was computed").replace("değeri", "value").replace("gece", "night")
+            t = t.replace("Bağlantı", "Link").replace("don,", "frost,")
+            lines.append(f"[[{m.group(1)}]] {t}")
+        tr = self.tmp / "tr.txt"
+        tr.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        out = self.tmp / "out.docx"
+        rep = self.ds.apply(self.docx, seg, tr, out, "en-GB", {"gece": "night"}, "Title EN", None)
+        self.assertEqual(rep["problems"], {})
+        txt = subprocess.run(["pandoc", str(out), "-t", "markdown"], capture_output=True, text=True).stdout
+        self.assertIn("*Prunus armeniaca*", txt)
+        self.assertIn("night", txt)
+        self.assertIn("Full bloom", txt)
+        self.assertIn("https://doi.org/10.5555/x", txt)
+        self.assertIn("T_{50}", txt)
+
+    def test_placeholder_loss_is_rejected(self):
+        seg = self.tmp / "seg"
+        self.ds.extract(self.docx, seg)
+        src = (seg / "source.txt").read_text(encoding="utf-8")
+        broken = re.sub(r"\{M1\}", "", src)
+        tr = self.tmp / "tr.txt"
+        tr.write_text(broken, encoding="utf-8")
+        rep = self.ds.apply(self.docx, seg, tr, self.tmp / "x.docx", None, None, None, None)
+        self.assertTrue(rep["problems"])

@@ -175,9 +175,18 @@ def extract_numbered(text: str) -> Counter:
     return out
 
 
+def _apply_aliases(text: str, aliases: dict) -> str:
+    for a, b in (aliases or {}).items():
+        text = text.replace(a, b)
+    return text
+
+
 def check_citations(src: str, tgt: str, p: dict, r: Report) -> None:
     sb, _ = split_references(src)
     tb, _ = split_references(tgt)
+    # Kurumsal yazar adları çevrilir ("Türkiye İstatistik Kurumu" -> "Turkish Statistical Institute");
+    # params.json citation_aliases ile kaynak metindeki ad hedefteki adla eşlenir.
+    sb = _apply_aliases(sb, p.get("citation_aliases"))
     sb_c, tb_c = strip_code_and_links(sb), strip_code_and_links(tb)
     sc, tc = extract_citations(sb_c), extract_citations(tb_c)
     for (name, y), n in sorted((sc - tc).items()):
@@ -212,7 +221,11 @@ def check_references(src: str, tgt: str, p: dict, r: Report) -> None:
     if not trf.strip():
         r.add("references", "critical", "OMISSION", "Çeviride kaynakça bölümü bulunamadı")
         return
-    if p.get("translate_references"):
+    mode = p.get("translate_references")
+    if mode == "connectors":
+        _check_reference_identity(sr, trf, p, r)
+        return
+    if mode:
         return
     norm = lambda s: re.sub(r"\s+", " ", normalize(s)).strip()  # noqa: E731
     if norm(sr) != norm(trf):
@@ -222,6 +235,31 @@ def check_references(src: str, tgt: str, p: dict, r: Report) -> None:
         r.add("references", "major", "STRUCTURE",
               f"Kaynakça çevrilmeyecekti ama {len(changed)} girdi değişmiş görünüyor",
               detail="; ".join(c[:80] for c in changed[:5]))
+
+
+def _ref_entries(text: str) -> list[str]:
+    return [ln.strip() for ln in text.splitlines() if re.search(r"\((?:19|20)\d{2}[a-z]?|\((?:t\.y\.|n\.d\.)\)", ln)]
+
+
+def _check_reference_identity(sr: str, trf: str, p: dict, r: Report) -> None:
+    """Kaynakçada yalnız bağlaç ve künye sözcükleri çevrildiğinde girdilerin kimliğini denetler.
+
+    Her kaynak girdisi için ilk yazar soyadı (ya da kurum adı), yıl ve harf eki
+    hedefte aynı sırada bulunmalıdır. DOI ve adresler check_citations içinde denetlenir.
+    """
+    src_e = _ref_entries(_apply_aliases(sr, p.get("citation_aliases")))
+    tgt_e = _ref_entries(trf)
+    key = lambda e: (tr_lower(re.split(r"[,.(]", e)[0].strip()), (re.search(r"\(((?:19|20)\d{2}[a-z]?|t\.y\.|n\.d\.)\)", e) or [None, ""])[1].replace("t.y.", "n.d."))  # noqa: E731
+    sk, tk = [key(e) for e in src_e], [key(e) for e in tgt_e]
+    if len(sk) != len(tk):
+        r.add("references", "critical", "OMISSION", f"Kaynakça girdi sayısı farklı: kaynak {len(sk)}, çeviri {len(tk)}")
+    for i, (a, b) in enumerate(zip(sk, tk), start=1):
+        if a != b:
+            r.add("references", "critical", "CITATION", f"Kaynakça girdisi {i} değişmiş: kaynak {a}, çeviri {b}")
+    if p.get("direction") == "tr-en":
+        for i, e in enumerate(tgt_e, start=1):
+            if re.search(r"\bve ark\.|\(t\.y\.\)|\bErişim\b|\[Veri\b| ve [A-ZÇĞİÖŞÜ]", e):
+                r.add("references", "major", "TYPOGRAPHY", f"Kaynakça girdisi {i}: Türkçe künye sözcüğü kalmış", detail=e[:100])
 
 
 # ---------------------------------------------------------------------------
@@ -402,6 +440,10 @@ def check_typography(tgt: str, direction: str, p: dict, r: Report) -> None:
         else:
             if re.search(r"\bve ark\.|\bvd\.", line):
                 flag("minor", "İngilizce hedefte Türkçe atıf kısaltması kalmış (beklenen: 'et al.')", ln, line)
+            hits = re.findall(r"(?<![\w])(ve|ile|bir|için|olarak|daha|veya|Tablo|Şekil|Eşitlik|Bölüm|Ek|yıl|gün|"
+                              r"[a-zçğıöşü]+(?:mıştır|miştir|muştur|müştür|maktadır|mektedir|ları|leri|ının|inin))(?![\w])", line)
+            if hits:
+                flag("major", "İngilizce hedefte Türkçe sözcük kalmış olabilir", ln, ", ".join(sorted(set(hits)))[:120])
         fig_label = p["figure_label_target"]
         tab_label = p["table_label_target"]
         wrong_fig = {"Şekil": r"\b(?:Figure|Fig\.)\s*\d", "Figure": r"\bŞekil\s*\d", "Fig.": r"\bŞekil\s*\d"}.get(fig_label)
@@ -479,6 +521,7 @@ def run(args: argparse.Namespace) -> Report:
     p.update(DEFAULTS[args.direction])
     if args.params:
         p.update(json.loads(args.params.read_text(encoding="utf-8")))
+    p["direction"] = args.direction
     r = Report()
     checks = set(args.only.split(",")) if args.only else None
 
