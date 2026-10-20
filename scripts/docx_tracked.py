@@ -19,6 +19,8 @@ duzeltmeler.json bir liste ya da {"edits": [...]} nesnesidir. İşlemler:
     {"op": "format_paragraph", "pid": "p0426", "like_pid": "p0425"}
         Paragraf biçimini (girinti, aralık) ve satır yazı boyutunu örnek paragraftan alır;
         eski biçim pPrChange ve rPrChange ile kaydedilir.
+    {"op": "delete_paragraph", "pid": "p0424"}
+        Paragrafı (metni ve paragraf işaretiyle) silinmiş olarak işaretler.
     {"op": "run_size", "pid": "p0421", "sz": 20}
         Yazı boyutu farklı satırları (ör. bağlantı satırları) verilen boyuta getirir (yarım punto).
     {"op": "italic", "pid": "p0422", "text": "Genetic Resources and Crop Evolution", "occurrence": 0}
@@ -359,6 +361,30 @@ def op_italic(tr: Tracker, p, text: str, occurrence: int | None = None) -> None:
         _track_rpr(tr, r, mutate)
 
 
+def op_delete_paragraph(tr: Tracker, p) -> None:
+    """Paragrafın bütün metnini ve paragraf işaretini silinmiş olarak işaretler."""
+    for r in text_runs(p):
+        d = tr.mark("del")
+        r.addprevious(d)
+        d.append(r)
+        for t in r.findall(W + "t"):
+            t.tag = W + "delText"
+    ppr = p.find(W + "pPr")
+    if ppr is None:
+        ppr = etree.Element(W + "pPr")
+        p.insert(0, ppr)
+    rpr = ppr.find(W + "rPr")
+    if rpr is None:
+        rpr = etree.Element(W + "rPr")
+        after = [ppr.find(W + "sectPr"), ppr.find(W + "pPrChange")]
+        after = [a for a in after if a is not None]
+        if after:
+            after[0].addprevious(rpr)
+        else:
+            ppr.append(rpr)
+    rpr.insert(0, tr.mark("del"))
+
+
 def op_insert_paragraph(tr: Tracker, root, anchor, text: str, like) -> None:
     p = etree.Element(W + "p")
     like_ppr = like.find(W + "pPr")
@@ -399,8 +425,12 @@ def accept_tree(root) -> int:
         for el in list(root.iter(W + tag)):
             el.getparent().remove(el)
             n += 1
-    # Paragraf işareti silinmiş paragrafları sonrakiyle birleştirmek bu betiğin işi değil;
-    # yalnız eklenen paragraf işaretlerinin kaydı kaldırılır.
+    # Paragraf işareti silinmiş ve metni kalmamış paragraf kaldırılır. Metni kalan paragrafı
+    # sonrakiyle birleştirmek bu betiğin işi değildir; o durumda yalnız işaret kaldırılır.
+    for p in root.xpath("//w:p[w:pPr/w:rPr/w:del]", namespaces={"w": W_NS}):
+        if not "".join(t.text or "" for t in p.iter(W + "t")).strip():
+            p.getparent().remove(p)
+            n += 1
     for el in root.xpath("//w:rPr/w:ins | //w:rPr/w:del", namespaces={"w": W_NS}):
         el.getparent().remove(el)
         n += 1
@@ -475,12 +505,21 @@ def apply_edits(docx: Path, segments: Path, edits: list, out: Path, author: str,
             elif op == "format_paragraph":
                 op_format_paragraph(tr, target, aux)
                 log.append(f"{e['pid']}: biçim {e['like_pid']} gibi")
+            elif op == "delete_paragraph":
+                op_delete_paragraph(tr, target)
+                log.append(f"{e['pid']}: paragraf silindi")
             elif op == "insert_paragraph":
                 op_insert_paragraph(tr, root, target, e["text"], aux)
                 where = e.get("before_pid") or f"çizelge {e['before_table']}"
                 log.append(f"yeni paragraf ({where} önüne): '{e['text']}'")
             else:
                 raise EditError(f"Bilinmeyen işlem: {op}")
+        # Bölünen satırların kopyaları aynı rPrChange kimliğini taşıyabilir; bu betiğin
+        # eklediği bütün değişiklik öğelerine yeni ve tekil kimlik verilir.
+        for el in root.iter(W + "ins", W + "del", W + "rPrChange", W + "pPrChange"):
+            if el.get(W + "author") == tr.author and el.get(W + "date") == tr.date:
+                el.set(W + "id", str(tr.next_id))
+                tr.next_id += 1
         return log
 
     _rewrite(docx, out, fn)

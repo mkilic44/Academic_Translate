@@ -462,6 +462,25 @@ class TestDocxTracked(unittest.TestCase):
         self.assertNotIn("w:ins ", cx)
         self.assertNotIn("w:del ", cx)
 
+    def test_delete_paragraph_and_unique_ids(self):
+        p_ref, p_text = self.pid["Breiman,"], self.pid["Ana örne"]
+        edits = [
+            {"op": "format_paragraph", "pid": p_text, "like_pid": p_ref},
+            {"op": "italic", "pid": p_text, "text": "bağlı grup"},
+            {"op": "delete_paragraph", "pid": p_ref},
+        ]
+        out = self.tmp / "izlenen.docx"
+        self.dt.apply_edits(self.docx, self.seg / "segments.json", edits, out, "Claude", "2026-10-20T00:00:00Z")
+        xml = zipfile.ZipFile(out).read("word/document.xml").decode()
+        ids = re.findall(r'<w:(?:ins|del|rPrChange|pPrChange) w:id="(\d+)"', xml)
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertIn("Breiman", self._plain(out, "all"))
+        clean = self.tmp / "temiz.docx"
+        self.dt._rewrite(out, clean, self.dt.accept_tree)
+        acc = self._plain(clean)
+        self.assertNotIn("Breiman", acc)
+        self.assertIn("Ana örneklem", acc)
+
     def test_ambiguous_old_is_rejected(self):
         edits = [{"op": "replace", "pid": self.pid["Breiman,"], "old": "s", "new": "x"}]
         with self.assertRaises(self.dt.EditError):

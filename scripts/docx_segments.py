@@ -299,6 +299,11 @@ def check_segment(src: str, tgt: str) -> list[str]:
         problems.append(f"kapanmamış etiket: {depth}")
     for t in set(re.findall(r"<(x\d+)>", tgt)) - set(re.findall(r"<(x\d+)>", src)):
         problems.append(f"kaynakta olmayan özel etiket: {t}")
+    for t in set(re.findall(r"<(x\d+)>", src)) - set(re.findall(r"<(x\d+)>", tgt)):
+        # Özel etiket paragrafın temel biçiminden farklı bir parçayı gösterir. Çeviride
+        # yoksa o parçanın biçimi (ör. düz yazı) kaybolur ve paragrafın tamamı temel biçimi
+        # (ör. italik) alır.
+        problems.append(f"kaynaktaki özel etiket çeviride yok: {t} (biçim tersine dönebilir)")
     return problems
 
 
