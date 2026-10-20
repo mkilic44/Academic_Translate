@@ -80,6 +80,14 @@ class TestTrText(unittest.TestCase):
     def test_unit_exponent_is_not_negative(self):
         self.assertEqual([v for v, _ in extract_numbers("1.35 g cm-3", ".")], ["1.35", "3"])
 
+    def test_plural_word_end_is_sentence_end(self):
+        s = split_sentences("The window lasted 30 days. The model was refitted. See s. 12 for details.")
+        self.assertEqual(len(s), 3)
+
+    def test_english_page_abbreviation_is_not_sentence_end(self):
+        s = split_sentences("The data were checked. See p. 4 and pp. 7-9 for details. It ended up.")
+        self.assertEqual(len(s), 3)
+
     def test_sentence_split_keeps_abbreviations(self):
         s = split_sentences("Smith et al. (2019) found 0.5 g. Kılıç ve ark. (2020) bunu gösterdi.")
         self.assertEqual(len(s), 2)

@@ -105,7 +105,9 @@ def split_references(text: str) -> tuple[str, str]:
         return text, ""
     level = len(m.group(1))
     rest = text[m.end():]
-    nxt = re.search(rf"^#{{1,{level}}}\s+\S", rest, re.MULTILINE)
+    # Kaynakça, aynı ya da üst düzey başlıkta ya da başlık biçemi taşımayan bir ek satırında biter
+    # ("Ek 2. Yöntem ayrıntıları", "Appendix A", "Supplementary material").
+    nxt = re.search(rf"^(?:#{{1,{level}}}\s+\S|(?:Ek|EK|Ekler|EKLER|Appendix|APPENDIX|Appendices|Supplementary)\b[ \t]*[A-Z0-9.:]*)", rest, re.MULTILINE)
     if nxt:
         refs = rest[: nxt.start()]
         body = text[: m.start()] + rest[nxt.start():]
@@ -290,7 +292,7 @@ def extract_numbers(text: str, decimal: str) -> list[tuple[str, int]]:
 _ABBREVS = [
     "et al.", "e.g.", "i.e.", "Fig.", "Figs.", "Eq.", "Eqs.", "vs.", "cf.", "approx.",
     "No.", "Dr.", "Prof.", "ve ark.", "vd.", "vb.", "örn.", "bkz.", "yy.", "Doç.", "Dr.",
-    "Şek.", "Çiz.", "s.", "ss.",
+    "Şek.", "Çiz.", "s.", "ss.", "p.", "pp.", "ca.", "Sect.",
 ]
 
 
@@ -298,7 +300,9 @@ def split_sentences(paragraph: str) -> list[str]:
     """Paragrafı cümlelere böler. Yaygın kısaltmalardaki nokta cümle sonu sayılmaz."""
     protected = paragraph
     for i, ab in enumerate(_ABBREVS):
-        protected = protected.replace(ab, ab.replace(".", f"\u0000{i}\u0000"))
+        # Kısaltma yalnız sözcük başında aranır: "s." kısaltması "days." sonunu yakalamamalı.
+        rx = re.compile(r"(?<![\w])" + re.escape(ab))
+        protected = rx.sub(lambda m, i=i: m.group(0).replace(".", "\u0000%d\u0000" % i), protected)
     # Ondalık noktayı koru: 0.05
     protected = re.sub(r"(\d)\.(\d)", "\\1\u0001\\2", protected)
     parts = re.split(r"(?<=[.!?])\s+(?=[\"'(\[]?[A-ZÇĞİÖŞÜ0-9])", protected)

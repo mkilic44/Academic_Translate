@@ -514,9 +514,34 @@ def to_markdown(r: Report, args: argparse.Namespace) -> str:
     return "\n".join(out)
 
 
+_SEG_LINE = re.compile(r"^\[\[[a-z0-9]+(?:\|[^\]]*)?\]\]\s?", re.MULTILINE)
+
+
+def _from_segments(text: str) -> str:
+    """docx_segments.py parça biçimini ("[[p0042|biçem]] metin") düz metne çevirir.
+
+    Kimlik ve biçem etiketi atılır, satırlar paragraf olur, başlık biçemi Markdown başlığına döner.
+    """
+    if not _SEG_LINE.search(text):
+        return text
+    out = []
+    for ln in text.splitlines():
+        m = re.match(r"^\[\[[a-z0-9]+(?:\|([^\]]*))?\]\]\s?(.*)$", ln)
+        if not m:
+            continue
+        style, body = (m.group(1) or "").lower(), m.group(2)
+        body = re.sub(r"</?(?:i|b|u|sub|sup|x\d+)>", "", body)
+        if style.startswith(("heading 1", "balk1")):
+            body = "# " + body
+        elif style.startswith(("heading 2", "balk2")):
+            body = "## " + body
+        out.append(body)
+    return "\n\n".join(out) + "\n"
+
+
 def run(args: argparse.Namespace) -> Report:
-    src = args.source.read_text(encoding="utf-8")
-    tgt = args.target.read_text(encoding="utf-8")
+    src = _from_segments(args.source.read_text(encoding="utf-8"))
+    tgt = _from_segments(args.target.read_text(encoding="utf-8"))
     p = dict(COMMON_DEFAULTS)
     p.update(DEFAULTS[args.direction])
     if args.params:
