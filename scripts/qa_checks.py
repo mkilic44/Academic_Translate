@@ -371,6 +371,7 @@ def check_glossary(src: str, tgt: str, glossary: dict, direction: str, r: Report
             n = _present(tb, bad, tgt_lang)
             if n:
                 r.add("glossary", "major", "TERMINOLOGY", f"Yasak biçim kullanılmış: '{bad}' ({n} kez); onaylı biçim '{t['translation']}'")
+    para = _check_glossary_by_paragraph(sb, tb, glossary, src_lang, tgt_lang, r)
     meta = glossary.get("metadata", {})
     for bad in meta.get("global_forbidden", []):
         n = _present(tb, bad, tgt_lang)
@@ -393,6 +394,44 @@ def check_glossary(src: str, tgt: str, glossary: dict, direction: str, r: Report
             r.add("glossary", "minor", "TERMINOLOGY", f"Aynı metinde değişken terimin iki biçimi: {used}",
                   detail="Bir biçim seçilir ve metin boyunca korunur.")
     r.stats["glossary"] = {"checked": checked, "compliant": ok}
+    if para is not None:
+        r.stats["glossary"]["paragraph_level"] = para
+
+
+def _paragraphs(text: str) -> list[str]:
+    return [p for p in re.split(r"\n\s*\n", text) if p.strip()]
+
+
+def _check_glossary_by_paragraph(sb: str, tb: str, glossary: dict, src_lang: str, tgt_lang: str, r: Report):
+    """Kaynak ve hedef paragraf sayısı eşitse terimi paragraf paragraf denetler.
+
+    Belge düzeyindeki denetim, onaylı karşılık belgenin bir yerinde geçince geçer;
+    başka bir paragraftaki sapmayı ("mortality curve" yanında başka yerde "kill curve") göremez.
+    Paragraf eşleşmesi yoksa (sayılar farklı) bu denetim atlanır ve None döner.
+    """
+    sp, tp = _paragraphs(sb), _paragraphs(tb)
+    if len(sp) != len(tp):
+        return None
+    checked = missing = 0
+    for t in glossary.get("terms", []):
+        if not t.get("enforce", True) or not t.get("translation"):
+            continue
+        forms = [t["translation"]] + list(t.get("alternatives") or [])
+        miss_at = []
+        for i, (s, g) in enumerate(zip(sp, tp), start=1):
+            if not _present(s, t["original"], src_lang):
+                continue
+            checked += 1
+            if not any(_present(g, f, tgt_lang) for f in forms):
+                missing += 1
+                miss_at.append(i)
+        if miss_at:
+            ex = tp[miss_at[0] - 1].strip()[:140]
+            r.add("glossary", "minor", "TERMINOLOGY",
+                  f"Paragrafta onaylı karşılık yok: '{t['original']}' -> '{t['translation']}' ({len(miss_at)} paragraf)",
+                  f"paragraf {', '.join(map(str, miss_at[:8]))}",
+                  f"Gönderme sözcüğü ('this window') ya da yeniden kurulan cümle olabilir; elle bak. İlk örnek: {ex}")
+    return {"paragraphs": len(sp), "checked": checked, "missing": missing}
 
 
 # ---------------------------------------------------------------------------

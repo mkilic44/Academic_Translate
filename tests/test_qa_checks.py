@@ -315,6 +315,22 @@ class TestTrEnFeatures(unittest.TestCase):
         self.assertIn("girdisi 1 değişmiş", msgs)
         self.assertIn("Türkçe künye", msgs)
 
+    def test_glossary_paragraph_level_catches_local_deviation(self):
+        # Onaylı karşılık belgenin bir yerinde geçiyor; öteki paragraftaki sapma yine yakalanmalı.
+        g = {"terms": [{"original": "ölüm eğrisi", "translation": "kill curve", "enforce": True}]}
+        src = "Ölüm eğrisi kurulmuştur.\n\nÖlüm eğrisi kaydırılmıştır.\n"
+        tgt = "The kill curve was built.\n\nThe mortality curve was shifted.\n"
+        with tempfile.TemporaryDirectory() as tmp:
+            s, t = Path(tmp) / "s.md", Path(tmp) / "t.md"
+            s.write_text(src, encoding="utf-8")
+            t.write_text(tgt, encoding="utf-8")
+            r = run_qa(s, t, "tr-en", glossary=g, params={"source_decimal": "."})
+        msgs = [f for f in r.findings if f["check"] == "glossary"]
+        self.assertEqual(len(msgs), 1)
+        self.assertIn("Paragrafta onaylı karşılık yok", msgs[0]["message"])
+        self.assertEqual(msgs[0]["location"], "paragraf 2")
+        self.assertEqual(r.stats["glossary"]["compliant"], 1)
+
     def test_turkish_leftovers_in_english(self):
         r = self._run("Bahçe verimi ölçülmüştür.\n", "Orchard yield ölçülmüştür ve recorded.\n", {"source_decimal": "."})
         self.assertTrue(any("Türkçe sözcük" in f["message"] for f in r.findings))
