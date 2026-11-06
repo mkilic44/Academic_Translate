@@ -253,10 +253,13 @@ def abbreviation_pattern(abbr: str) -> re.Pattern[str]:
 # ---------------------------------------------------------------------------
 
 _NUM_POINT = re.compile(
-    r"(?P<sign>(?<![\w)\]])-)?(?<![\w])(?P<int>\d{1,3}(?:,\d{3})+|\d+)(?:\.(?P<frac>\d+))?(?!\d)"
+    r"(?P<sign>(?<![\w)\]%])-)?(?<![\w])(?P<int>\d{1,3}(?:,\d{3})+|\d+)(?:\.(?P<frac>\d+))?(?!\d)"
 )
+_VERSION_BEFORE = re.compile(r"(?i)(sürüm\w*|version|release|v)\s*$")
+_VERSION_AFTER = re.compile(r"(?i)^\s*(sürüm|version)")
+_DOTTED = re.compile(r"(?<![\w.,-])\d+(?:\.\d+)+(?![\w.,]\d)")
 _NUM_COMMA = re.compile(
-    r"(?P<sign>(?<![\w)\]])-)?(?<![\w])(?P<int>\d{1,3}(?:\.\d{3})+|\d+)(?:,(?P<frac>\d+))?(?!\d)"
+    r"(?P<sign>(?<![\w)\]%])-)?(?<![\w])(?P<int>\d{1,3}(?:\.\d{3})+|\d+)(?:,(?P<frac>\d+))?(?!\d)"
 )
 
 
@@ -277,6 +280,25 @@ def extract_numbers(text: str, decimal: str) -> list[tuple[str, int]]:
     sep = "," if decimal == "." else "."
     out: list[tuple[str, int]] = []
     for lineno, line in enumerate(text.splitlines(), start=1):
+        # Noktalı sürüm ve bölüm numaraları (6.1, 2.3.0) iki dilde de aynı yazılır; virgül
+        # ondalıklı metinde binlik ayırıcı sanılmasın diye olduğu gibi alınır.
+        def _literal(m):
+            tok = m.group(0)
+            groups = tok.split(".")
+            if decimal == "," and all(len(g) == 3 for g in groups[1:]):
+                return tok
+            if len(groups) < 3:
+                # İki parçalı noktalı sayı yalnız sürüm bağlamında olduğu gibi alınır;
+                # öteki durumda virgül ondalıklı metindeki hatalı ondalık nokta yakalanmalı.
+                before = line[max(0, m.start() - 16):m.start()]
+                after = line[m.end():m.end() + 12]
+                if not (_VERSION_BEFORE.search(before) or _VERSION_AFTER.match(after)):
+                    return tok
+                if decimal == ".":
+                    return tok
+            out.append((tok, lineno))
+            return " " * len(tok)
+        line = _DOTTED.sub(_literal, line)
         for m in rx.finditer(line):
             integer = m.group("int").replace(sep, "")
             frac = m.group("frac")

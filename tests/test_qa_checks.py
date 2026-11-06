@@ -78,6 +78,15 @@ class TestTrText(unittest.TestCase):
     def test_trailing_zero_is_a_difference(self):
         self.assertNotEqual(extract_numbers("0.50", "."), extract_numbers("0,5", ","))
 
+    def test_dotted_versions_match_across_decimal_conventions(self):
+        tr = [v for v, _ in extract_numbers("MOD13Q1 6.1 sürümü, eklenti 2.3.0; alan 6912,8 km²", ",")]
+        en = [v for v, _ in extract_numbers("MOD13Q1 version 6.1, plugin 2.3.0; area 6912.8 km²", ".")]
+        self.assertEqual(sorted(tr), sorted(en))
+
+    def test_percent_range_is_not_negative(self):
+        self.assertEqual([v for v, _ in extract_numbers("%62,6-%85,7", ",")], ["62.6", "85.7"])
+        self.assertEqual([v for v, _ in extract_numbers("62.6%-85.7%", ".")], ["62.6", "85.7"])
+
     def test_unit_exponent_is_not_negative(self):
         self.assertEqual([v for v, _ in extract_numbers("1.35 g cm-3", ".")], ["1.35", "3"])
 
