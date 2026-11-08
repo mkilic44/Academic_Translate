@@ -94,6 +94,10 @@ class TestTrText(unittest.TestCase):
         s = split_sentences("The window lasted 30 days. The model was refitted. See s. 12 for details.")
         self.assertEqual(len(s), 3)
 
+    def test_caption_panel_labels_start_sentences(self):
+        s = split_sentences("Figure 2. Spatial design. (a, b) Fold maps for 2009. (c) Distances. (d) Counts.")
+        self.assertEqual(len(s), 5)
+
     def test_english_page_abbreviation_is_not_sentence_end(self):
         s = split_sentences("The data were checked. See p. 4 and pp. 7-9 for details. It ended up.")
         self.assertEqual(len(s), 3)

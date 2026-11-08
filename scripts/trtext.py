@@ -327,7 +327,8 @@ def split_sentences(paragraph: str) -> list[str]:
         protected = rx.sub(lambda m, i=i: m.group(0).replace(".", "\u0000%d\u0000" % i), protected)
     # Ondalık noktayı koru: 0.05
     protected = re.sub(r"(\d)\.(\d)", "\\1\u0001\\2", protected)
-    parts = re.split(r"(?<=[.!?])\s+(?=[\"'(\[]?[A-ZÇĞİÖŞÜ0-9])", protected)
+    # Şekil başlıklarındaki panel etiketi ("(a, b) ...", "(c) ...") yeni cümle başlatır.
+    parts = re.split(r"(?<=[.!?])\s+(?=[\"'(\[]?[A-ZÇĞİÖŞÜ0-9]|\([a-z](?:,\s?[a-z])*\)\s)", protected)
     restored = []
     for p in parts:
         p = p.replace("\u0001", ".")
