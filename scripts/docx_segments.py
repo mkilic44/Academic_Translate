@@ -387,6 +387,33 @@ def _special_run(base, tok):
     return r
 
 
+def _plain(s: str) -> str:
+    """Biçim etiketlerini ve yer tutucuları atar, boşlukları sadeleştirir."""
+    s = re.sub(r"</?[a-z]+\d*>|\{[A-Z]+\d*\}", "", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _alt_key(s: str) -> str:
+    """Şekil açıklaması ile başlığı eşlemek için anahtar: harf ve rakamların ilk 40'ı.
+    Binlik ayırıcı gibi noktalama farkları eşlemeyi bozmaz."""
+    return re.sub(r"[\W_]+", "", _plain(s).lower())[:40]
+
+
+def _translate_alt_text(root, alt_map: dict, report: dict) -> None:
+    """Şekil alternatif metni (descr) kaynak başlıkla aynıysa çevrilmiş başlığı yazar.
+    Eşleşmeyen dolu açıklamalar raporda listelenir; elle bakılmalıdır."""
+    for el in root.iter():
+        d = el.get("descr")
+        if not d:
+            continue
+        new = alt_map.get(_alt_key(d))
+        if new is not None:
+            el.set("descr", new)
+            report["alt_text_replaced"] += 1
+        elif d[:80] not in report["alt_text_untranslated"]:
+            report["alt_text_untranslated"].append(d[:80])
+
+
 def apply(docx: Path, segdir: Path, translations: Path, out: Path, lang: str | None,
           math_map: dict | None, core_title: str | None, core_subject: str | None) -> dict:
     segs = json.loads((segdir / "segments.json").read_text(encoding="utf-8"))
@@ -404,6 +431,10 @@ def apply(docx: Path, segdir: Path, translations: Path, out: Path, lang: str | N
                 report["problems"][s["id"]] = pr
     if report["problems"]:
         return report
+    alt_map = {_alt_key(s["text"]): _plain(tr[s["id"]]) for s in segs
+               if s["translate"] and s["id"] in tr and len(_alt_key(s["text"])) >= 20}
+    report["alt_text_replaced"] = 0
+    report["alt_text_untranslated"] = []
     tmp = Path(tempfile.mkdtemp())
     with zipfile.ZipFile(docx) as z:
         z.extractall(tmp)
@@ -420,6 +451,7 @@ def apply(docx: Path, segdir: Path, translations: Path, out: Path, lang: str | N
                 report["applied"] += 1
             else:
                 analyse_paragraph(p, counters)
+        _translate_alt_text(tree.getroot(), alt_map, report)
         if math_map:
             for t in tree.getroot().iter(M + "t"):
                 if t.text in math_map:
