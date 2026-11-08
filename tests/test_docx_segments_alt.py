@@ -38,3 +38,20 @@ class AltTextTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MixedRunTests(unittest.TestCase):
+    def test_text_with_line_break_is_translatable(self):
+        W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xml = (
+            f'<w:body xmlns:w="{W_NS}"><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>En düşük hata</w:t><w:br/>'
+            "<w:t>Tümü / taban suyu</w:t></w:r></w:p></w:body>"
+        )
+        root = etree.fromstring(xml.encode("utf-8"))
+        self.assertEqual(ds._split_mixed_runs(root), 1)
+        from collections import Counter
+
+        p = root.find(f"{{{W_NS}}}p")
+        text, *_ = ds.analyse_paragraph(p, Counter())
+        self.assertEqual(text, "En düşük hata{BR}Tümü / taban suyu")
+        self.assertEqual(len(p.findall(f"{{{W_NS}}}r/{{{W_NS}}}rPr/{{{W_NS}}}b")), 3)

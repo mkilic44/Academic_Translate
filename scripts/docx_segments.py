@@ -226,10 +226,50 @@ def analyse_paragraph(p, counters):
     return text, base_key, {v: k for k, v in custom.items()}, rprs, items
 
 
+def _split_mixed_runs(root) -> int:
+    """Metin ile satır sonu ya da sekmeyi aynı satırda taşıyan w:r öğelerini, her biri tek
+    türde öğe taşıyan satırlara böler (biçim aynen kopyalanır). Bölünmezse satırın tamamı
+    {X} yer tutucusu olur ve içindeki metin çevirmene hiç gitmez (ör. iki satırlı çizelge
+    başlığı). extract ve apply aynı belgeye aynı bölmeyi uyguladığı için dizinler tutar."""
+    simple = {W + "t", W + "br", W + "cr", W + "tab"}
+    n = 0
+    for r in list(root.iter(W + "r")):
+        kids = [k for k in r if k.tag != W + "rPr"]
+        tags = {k.tag for k in kids}
+        if len(kids) < 2 or not tags <= simple or W + "t" not in tags or tags == {W + "t"}:
+            continue
+        rpr = r.find(W + "rPr")
+        groups = []
+        for k in kids:
+            if groups and k.tag == W + "t" and groups[-1][0].tag == W + "t":
+                groups[-1].append(k)
+            else:
+                groups.append([k])
+        anchor = r
+        for g in groups:
+            nr = etree.Element(W + "r")
+            for a, v in r.attrib.items():
+                nr.set(a, v)
+            if rpr is not None:
+                nr.append(copy.deepcopy(rpr))
+            if g[0].tag == W + "t":
+                t = etree.SubElement(nr, W + "t")
+                t.text = "".join(x.text or "" for x in g)
+                t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+            else:
+                nr.append(copy.deepcopy(g[0]))
+            anchor.addnext(nr)
+            anchor = nr
+        r.getparent().remove(r)
+        n += 1
+    return n
+
+
 def extract(docx: Path, out: Path) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     segs = []
     counters = Counter()
+    hidden_text = []
     with zipfile.ZipFile(docx) as z:
         names = set(z.namelist())
         styles = {}
@@ -242,9 +282,15 @@ def extract(docx: Path, out: Path) -> dict:
             if part not in names:
                 continue
             root = etree.fromstring(z.read(part))
+            _split_mixed_runs(root)
             prefix = "p" if part == "word/document.xml" else re.sub(r"[^a-z0-9]", "", Path(part).stem)
             for idx, p in enumerate(_parts_iter(root)):
                 text, base_key, custom, rprs, items = analyse_paragraph(p, counters)
+                for it in items:
+                    if it[0] == "ph" and it[1].startswith("{X"):
+                        hidden = "".join(t.text or "" for t in it[2].iter(W + "t")).strip()
+                        if hidden:
+                            hidden_text.append({"placeholder": it[1], "part": part, "index": idx, "text": hidden[:80]})
                 plain = re.sub(r"<[^>]+>|\{[^}]+\}", "", text).strip()
                 ps = p.find(W + "pPr/" + W + "pStyle")
                 style_id = ps.get(W + "val") if ps is not None else ""
@@ -267,7 +313,9 @@ def extract(docx: Path, out: Path) -> dict:
             lines.append(f"[[{s['id']}|{label}]] {s['text']}")
     (out / "source.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     (out / "tags.md").write_text(__doc__.split("Satır içi gösterim:")[1].split("apply çeviri")[0], encoding="utf-8")
-    return {"segments": len(segs), "translatable": sum(1 for s in segs if s["translate"]), "placeholders": dict(counters)}
+    # Yer tutucu içinde kalan metin çevrilmez; elle bakılmalı.
+    return {"segments": len(segs), "translatable": sum(1 for s in segs if s["translate"]),
+            "placeholders": dict(counters), "hidden_text": hidden_text}
 
 
 def parse_translations(path: Path) -> dict[str, str]:
@@ -444,6 +492,7 @@ def apply(docx: Path, segdir: Path, translations: Path, out: Path, lang: str | N
         if not f.exists():
             continue
         tree = etree.parse(str(f))
+        _split_mixed_runs(tree.getroot())
         for idx, p in enumerate(_parts_iter(tree.getroot())):
             s = by_part.get(part, {}).get(idx)
             if s and s["id"] in tr:
