@@ -345,6 +345,10 @@ class TestTrEnFeatures(unittest.TestCase):
         self.assertEqual(msgs[0]["location"], "paragraf 2")
         self.assertEqual(r.stats["glossary"]["compliant"], 1)
 
+    def test_turkish_possessive_narrative_citation(self):
+        c = qa_checks.extract_citations("Meyer ve ark.’nın (2019) bulgusu ve Kaya’nın (2020) önerisi.")
+        self.assertEqual(sum(c.values()), 2)
+
     def test_turkish_leftovers_in_english(self):
         r = self._run("Bahçe verimi ölçülmüştür.\n", "Orchard yield ölçülmüştür ve recorded.\n", {"source_decimal": "."})
         self.assertTrue(any("Türkçe sözcük" in f["message"] for f in r.findings))

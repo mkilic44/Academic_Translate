@@ -128,7 +128,9 @@ YEAR = r"(?:19|20)\d{2}[a-z]?"
 CONNECT = r"(?:\s+(?:et al\.|ve ark\.|vd\.|ve diğ\.)|\s+(?:and|ve|&)\s+" + SURNAME + r")?"
 PAREN_RE = re.compile(r"\(([^()]*?" + YEAR + r"[^()]*)\)")
 IN_PAREN_RE = re.compile(r"(" + SURNAME + r")" + CONNECT + r",?\s+(" + YEAR + r"(?:\s*,\s*" + YEAR + r")*)")
-NARRATIVE_RE = re.compile(r"(" + SURNAME + r")" + CONNECT + r"\s*\((" + YEAR + r"(?:\s*,\s*" + YEAR + r")*)\)")
+# Türkçe anlatı atfında ad ile yıl arasına iyelik ya da hâl eki girebilir: "Meyer ve ark.’nın (2019)".
+TR_SUFFIX = r"(?:['’][a-zçğıöşü]+)?"
+NARRATIVE_RE = re.compile(r"(" + SURNAME + r")" + CONNECT + TR_SUFFIX + r"\s*\((" + YEAR + r"(?:\s*,\s*" + YEAR + r")*)\)")
 NUMBERED_RE = re.compile(r"\[(\d+(?:\s*[-,\u2013]\s*\d+)*)\]")
 _NOT_NAMES = {"Table", "Tables", "Figure", "Figures", "Fig", "Çizelge", "Tablo", "Şekil", "Eq", "Equation", "Denklem", "See", "Bkz"}
 
