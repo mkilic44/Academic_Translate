@@ -121,6 +121,29 @@ def _set_t(t, text: str) -> None:
         t.attrib.pop(XML_SPACE, None)
 
 
+def drop_render_hints(root) -> int:
+    """Word'ün sayfa kesme önbelleğini (w:lastRenderedPageBreak) siler ve yan yana kalan
+    w:t öğelerini birleştirir. Öğe içerik taşımaz; Word belgeyi açınca yeniden üretir.
+    Silinmezse bir satırda iki w:t kalır ve satır bölünemez."""
+    n = 0
+    for el in list(root.iter(W + "lastRenderedPageBreak")):
+        el.getparent().remove(el)
+        n += 1
+    for r in root.iter(W + "r"):
+        ts = r.findall(W + "t")
+        if len(ts) < 2:
+            continue
+        kids = [k for k in r if k.tag != W + "rPr"]
+        merged = []
+        for k in kids:
+            if k.tag == W + "t" and merged and merged[-1].tag == W + "t":
+                _set_t(merged[-1], (merged[-1].text or "") + (k.text or ""))
+                r.remove(k)
+            else:
+                merged.append(k)
+    return n
+
+
 def split_run(r, pos: int):
     """Satırı metin konumundan ikiye böler; (sol, sağ) döner. Satırda tek w:t olmalı."""
     ts = r.findall(W + "t")
@@ -463,6 +486,7 @@ def apply_edits(docx: Path, segments: Path, edits: list, out: Path, author: str,
     log: list[str] = []
 
     def fn(root):
+        drop_render_hints(root)
         tr = Tracker(root, author, date)
         paras = body_paragraphs(root)
         body = root.find(W + "body")
